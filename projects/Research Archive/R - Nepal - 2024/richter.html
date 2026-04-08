@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>尼泊尔唐卡市场与新殖民主义机制 — Zhanyi Qi</title>
+    <link rel="stylesheet" href="../../../global/css/style.css">
+    <style>
+        /* ── HERO SECTION ── */
+        .project-page {
+            display: flex;
+            height: 100vh;
+            padding-top: 60px;
+        }
+        .project-img {
+            width: 30.14159%;
+            min-width: 0;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .project-img .img-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background:
+                linear-gradient(to bottom, #000 0%, transparent 40%, transparent 60%, #000 100%);
+            opacity: 0;
+            transition: opacity 0.05s;
+        }
+        .project-img .img-vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background:
+                linear-gradient(to bottom, #000 0%, transparent 30%, transparent 70%, #000 100%);
+            opacity: 0;
+            transition: opacity 0.05s;
+        }
+        .project-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 6rem;
+            min-width: 0;
+        }
+        .project-text .back {
+            font-weight: 200;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .project-text .back:hover { color: var(--gold); }
+        .project-text .back::before { content: '\2190 '; }
+        .project-text h1 {
+            font-family: var(--font-cn);
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .project-text .subtitle {
+            font-weight: 200;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+        }
+        .project-text .subtitle:hover { color: var(--gold); }
+        .project-text p {
+            font-family: var(--font-cn);
+            font-weight: 400;
+            font-size: 0.95rem;
+            line-height: 2.1;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        /* ── SOURCES ── */
+        .sources-section {
+            padding: 4rem 6rem 5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .sources-section h2 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+        .source-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .source-card:hover {
+            border-color: rgba(248,211,28,0.3);
+        }
+        .source-card .source-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.3rem;
+        }
+        .source-card .source-desc {
+            font-family: var(--font-cn);
+            font-weight: 200;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .project-page {
+                flex-direction: column;
+                height: auto;
+            }
+            .project-img {
+                width: 100%;
+                height: 40vh;
+            }
+            .project-text { padding: 2rem 1.5rem; }
+            .project-text h1 { font-size: 1.6rem; }
+            .sources-section { padding: 3rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nav" class="scrolled">
+    <a href="../../../home/home.html" class="site-name">Zhanyi Qi</a>
+    <div class="nav-links">
+        <a href="../../../home/home.html">Home</a>
+        <div class="dropdown">
+            <a href="../../../ventures/index.html">Ventures <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../../ventures/V- 拾古学社 - 2025/shiguxueshe.html">拾古学社</a>
+                <a href="../../../ventures/V - bendi - now/bendi.html">Bendi 本地</a>
+                <a href="../../../ventures/V - 讲座 - now/lectures.html">宗教与文化公益讲座</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../../index.html" class="active">Projects <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content dropdown-content-nested">
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#selected-works" class="dropdown-parent-link">Selected Works</a>
+                    <div class="dropdown-submenu">
+                        <a href="../../Selected Works/R - tourism - 2025/ai-tourism.html">AI旅行助手的使用动机与决策逻辑</a>
+                        <a href="../../Selected Works/R - Web3 - 2025/web3.html">加密货币去中心化叙事的话语分析</a>
+                        <a href="../../Selected Works/R - AI - 2025/ai-compute-fairness.html">协作式AI算力平台中的任务调度优化与公平性指标设计</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#case-archive" class="dropdown-parent-link">Case Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="../../Case Archive/C - DIC - 2024/dic-2024.html">通过智慧钱包降低加州政府救济金诈骗</a>
+                        <a href="../../Case Archive/C - DIC - 2025/dic-2025.html">通过新型闸机协助 MTA 降低逃票率</a>
+                        <a href="../../Case Archive/C - MCM - 2026/mcm.html">AI 对教育与职业结构的渗透率评估</a>
+                        <a href="../../Case Archive/C - TimeSeries - 2025/time-series-prediction.html">时间序列预测</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#research-archive" class="dropdown-parent-link">Research Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="../R - 东大寺 - 2022/todaiji.html">东大寺与国家佛教政治</a>
+                        <a href="richter.html">尼泊尔唐卡市场与新殖民主义机制</a>
+                        <a href="../biblical-research.html">圣经文本与基督教教义研究</a>
+                        <a href="../yongan-temple.html">永安寺裂面明王壁画研究</a>
+                        <a href="../chemical-analysis.html">考古文物化学成分分析研究</a>
+                        <a href="../ai-artwork.html">AI艺术作品价格预测</a>
+                        <a href="../mahabharata-study.html">《摩诃婆罗多》文本与史诗传统研究</a>
+                        <a href="../hiphop-study.html">嘻哈文化与社会表达研究</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../../../writings/writing.html">Writings <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../../writings/writing.html">Coming soon</a>
+            </div>
+        </div>
+        <a href="../../../index/collections.html">Index</a>
+        <a href="../../../contact/contact.html">Contact</a>
+    </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="project-page">
+    <div class="project-img" id="projectImg">
+        <img src="thangka-painter.jpg" alt="尼泊尔唐卡画师">
+        <div class="img-vignette" id="imgVignette"></div>
+        <div class="img-mask" id="imgMask"></div>
+    </div>
+    <div class="project-text">
+        <a href="../../index.html" class="back">Projects</a>
+        <h1>尼泊尔唐卡市场与新殖民主义机制</h1>
+        <a href="qi-richter-poster.pdf" target="_blank" rel="noopener" class="subtitle" style="display:inline-block; transition:color 0.2s;">Adventure, Esotericism, and the Buddha: The Nepali Thangka Market under Neocolonialism Mechanisms &middot; 2024 ↗</a>
+        <p>在大同永安寺研究忿怒尊壁画的那个夏天，我第一次近距离看到宗教图像被当作"产品"出售——寺外的小摊上摆满了印刷佛像和批量生产的护身符，摊主对它们的来历一无所知，买家也不在乎。那种神圣与廉价之间毫无过渡的并置让我很不舒服。后来在 Jarrod Whitaker 教授的印度史诗课上读到喜马拉雅地区的宗教艺术传统时，我才意识到，我不舒服的并不是商业本身，而是一种更深层的错位：当一件需要倾注一生心力才能完成的圣物，开始按照买家的时间表和审美偏好被生产时，改变的不只是工艺，而是信仰与物之间的关系本身。</p>
+        <p>2024年夏天，在 Andrew Gurstelle 教授的指导下，我带着这个问题前往加德满都和巴克塔普尔，对唐卡画师和西方买家进行了为期三周的田野调查。我走访了多所唐卡学校，用滚雪球式访谈法与十余位画师深入交谈，同时在画廊中观察游客的购买行为与议价过程。这项研究最终聚焦于一个尖锐的问题：西方收藏体系的需求如何通过画廊、拍卖行和博物馆的中介，重塑了唐卡的制作流程、神圣属性和定价逻辑——而这种重塑，本质上是一种新殖民主义机制在文化遗产领域的具体运作。</p>
+    </div>
+</div>
+
+<!-- ═══ RESOURCES & EXTENDED READING ═══ -->
+<div class="sources-section">
+    <h2>Resources & Extended Reading</h2>
+    <div class="source-grid">
+        <div class="source-card">
+            <div class="source-title">Kramrisch, S. (1960)</div>
+            <div class="source-desc">喜马拉雅宗教艺术的形式与象征体系研究</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Marylin et al. (1996)</div>
+            <div class="source-desc">唐卡制作工艺：从画布准备到矿物颜料的传统技法</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Teague (1995)</div>
+            <div class="source-desc">尼泊尔旅游业对传统手工艺的影响与市场变迁</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Mahābhārata & Vedas</div>
+            <div class="source-desc">印度史诗与吠陀经典，喜马拉雅宗教传统的文本基础</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Folmar, S. — Nepal Fieldwork</div>
+            <div class="source-desc">尼泊尔田野调查方法论与在地人脉网络</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Museum Anthropology (Gurstelle)</div>
+            <div class="source-desc">博物馆人类学框架：文化机构如何中介艺术品的流通与意义</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p class="copyright">&copy; 2026 Zhanyi Qi</p>
+</footer>
+
+<script>
+(function() {
+    var mask = document.getElementById('imgMask');
+    var vignette = document.getElementById('imgVignette');
+    var page = document.querySelector('.project-page');
+
+    window.addEventListener('scroll', function() {
+        var rect = page.getBoundingClientRect();
+        var pageH = page.offsetHeight;
+        var visibleRatio = Math.max(0, rect.bottom) / pageH;
+
+        // Vignette (edges darken first): reaches full at 60% visible
+        var vOp = Math.min(1, Math.max(0, (1 - visibleRatio) / 0.4));
+        vignette.style.opacity = vOp;
+
+        // Full mask (center darkens): reaches full at 40% visible
+        var mOp = Math.min(1, Math.max(0, (1 - visibleRatio) / 0.6));
+        mask.style.opacity = mOp;
+    });
+})();
+</script>
+
+</body>
+</html>

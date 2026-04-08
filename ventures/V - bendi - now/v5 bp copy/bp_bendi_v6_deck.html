@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「本地」Investor Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+    background: #e8e2d8;
+    color: #2d2520;
+  }
+
+  .slide {
+    width: 1280px;
+    height: 720px;
+    margin: 24px auto;
+    background: #faf8f4;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Decorative blobs */
+  .blob-tl { position: absolute; top: -40px; left: -40px; z-index: 1; }
+  .blob-br { position: absolute; bottom: -40px; right: -40px; z-index: 1; }
+  .blob-tr { position: absolute; top: -30px; right: -30px; z-index: 1; }
+  .blob-bl { position: absolute; bottom: -30px; left: -30px; z-index: 1; }
+  .blob-mid-r { position: absolute; top: 50%; right: -60px; transform: translateY(-50%); z-index: 1; }
+
+  /* Typography */
+  .page-num { position: absolute; top: 28px; right: 40px; font-size: 18px; font-weight: 700; color: #8a7355; z-index: 3; }
+  .brand-tag { position: absolute; bottom: 24px; right: 40px; font-size: 13px; font-weight: 700; color: #8a7355; letter-spacing: 1px; z-index: 3; }
+
+  .section-en { font-size: 32px; font-weight: 900; color: #3d3228; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .section-zh { font-size: 16px; font-weight: 400; color: #8a7355; margin-bottom: 32px; }
+
+  h1 { font-size: 42px; font-weight: 900; color: #3d3228; line-height: 1.3; }
+  h2 { font-size: 20px; font-weight: 700; color: #3d3228; margin-bottom: 12px; }
+  h3 { font-size: 15px; font-weight: 700; color: #5c4a32; }
+  p { font-size: 14px; line-height: 1.75; color: #4a3f35; }
+
+  /* Cards */
+  .card-row { display: flex; gap: 20px; }
+  .card {
+    flex: 1;
+    background: #f0ece4;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+  }
+  .card.dark {
+    background: #3d3228;
+    color: #faf8f4;
+  }
+  .card.dark h3 { color: #c4a97a; }
+  .card.dark p { color: #e0d6c8; }
+  .card.accent {
+    background: #8a7355;
+    color: #faf8f4;
+  }
+  .card.accent h3 { color: #f0ece4; }
+  .card.accent p { color: #e0d6c8; }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .card-icon.warm { background: #8a7355; }
+  .card-icon.dark { background: #3d3228; }
+  .card-icon.light { background: rgba(138,115,85,0.15); }
+
+  /* Stats */
+  .stat-row { display: flex; gap: 20px; }
+  .stat-block { text-align: center; flex: 1; }
+  .stat-num { font-size: 40px; font-weight: 900; color: #3d3228; line-height: 1; }
+  .stat-num.accent { color: #8a7355; }
+  .stat-label { font-size: 11px; color: #8a7355; margin-top: 6px; line-height: 1.4; letter-spacing: 0.5px; }
+
+  /* Cover specific */
+  .cover-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .cover-left { max-width: 600px; }
+  .cover-title { font-size: 72px; font-weight: 900; color: #3d3228; line-height: 1.1; margin-bottom: 12px; }
+  .cover-sub { font-size: 20px; color: #8a7355; font-weight: 400; margin-bottom: 48px; letter-spacing: 2px; }
+  .cover-tagline { font-size: 17px; color: #5c4a32; line-height: 1.8; margin-bottom: 48px; border-left: 3px solid #8a7355; padding-left: 20px; }
+  .cover-meta { font-size: 12px; color: #b0a090; letter-spacing: 1px; }
+  .cover-meta span { margin-right: 24px; }
+
+  /* Two column layout */
+  .two-col { display: flex; gap: 40px; flex: 1; }
+  .col { flex: 1; display: flex; flex-direction: column; }
+
+  /* Flow blocks */
+  .flow-row { display: flex; align-items: center; gap: 0; }
+  .flow-box {
+    background: #f0ece4;
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #3d3228;
+    min-width: 120px;
+  }
+  .flow-box.active {
+    background: #8a7355;
+    color: #faf8f4;
+  }
+  .flow-arrow { font-size: 18px; color: #8a7355; margin: 0 8px; }
+
+  /* Timeline */
+  .timeline { display: flex; align-items: flex-start; gap: 0; margin-top: 20px; position: relative; }
+  .tl-segment { flex: 1; position: relative; text-align: center; }
+  .tl-dot { width: 16px; height: 16px; border-radius: 50%; background: #8a7355; margin: 0 auto 12px; position: relative; z-index: 2; }
+  .tl-dot.future { background: #d4c9b8; }
+  .tl-line { position: absolute; top: 7px; left: 0; right: 0; height: 2px; background: #d4c9b8; z-index: 1; }
+  .tl-label { font-size: 11px; font-weight: 700; color: #8a7355; margin-bottom: 4px; letter-spacing: 1px; }
+  .tl-title { font-size: 13px; font-weight: 700; color: #3d3228; margin-bottom: 4px; }
+  .tl-desc { font-size: 11px; color: #6b5c45; line-height: 1.5; }
+
+  .highlight { color: #8a7355; font-weight: 700; }
+
+  .tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; background: #8a7355; color: #faf8f4; padding: 3px 10px; border-radius: 4px; margin-right: 6px; }
+  .tag.outline { background: transparent; border: 1.5px solid #8a7355; color: #8a7355; }
+
+  .quote-box {
+    background: #3d3228;
+    border-radius: 16px;
+    padding: 20px 28px;
+    color: #e0d6c8;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.7;
+    margin-top: 16px;
+  }
+  .quote-box .attr { font-style: normal; font-size: 11px; color: #8a7355; margin-top: 8px; }
+
+  ul.clean { list-style: none; padding: 0; }
+  ul.clean li { font-size: 13px; line-height: 1.7; color: #4a3f35; padding: 4px 0; padding-left: 20px; position: relative; }
+  ul.clean li::before { content: ''; position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 2px; background: #8a7355; }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide">
+  <!-- Decorative blobs -->
+  <svg class="blob-tl" width="200" height="200" viewBox="0 0 200 200"><ellipse cx="60" cy="60" rx="120" ry="100" fill="#8a7355" opacity="0.08"/></svg>
+  <svg class="blob-br" width="320" height="280" viewBox="0 0 320 280">
+    <ellipse cx="200" cy="180" rx="180" ry="150" fill="#8a7355" opacity="0.06"/>
+    <ellipse cx="260" cy="120" rx="100" ry="80" fill="#c4a97a" opacity="0.08"/>
+  </svg>
+  <svg class="blob-mid-r" width="240" height="300" viewBox="0 0 240 300">
+    <ellipse cx="180" cy="150" rx="120" ry="140" fill="#3d3228" opacity="0.04"/>
+  </svg>
+  <span class="page-num">01</span>
+  <div class="slide-content">
+    <div class="cover-content">
+      <div class="cover-left">
+        <div style="font-size:11px; letter-spacing:4px; color:#8a7355; font-weight:500; margin-bottom:24px; text-transform:uppercase;">Investor Brief · Pre-Seed · 2026</div>
+        <div class="cover-title">「本地」</div>
+        <div class="cover-sub">中国在地体验的预订基础设施</div>
+        <div class="cover-tagline">
+          中国每年 50 亿人次国内旅行。<br>
+          他们能买到门票、酒店、机票——<br>
+          唯独买不到一座城市真正的日常。
+        </div>
+        <div class="cover-meta">
+          <span>2026年4月</span>
+          <span>大同启动</span>
+          <span>Pre-Seed</span>
+        </div>
+      </div>
+      <!-- Logo / Visual -->
+      <div style="position:relative;">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <rect x="10" y="10" width="200" height="200" rx="40" fill="#3d3228"/>
+          <text x="110" y="130" text-anchor="middle" font-size="90" font-weight="900" fill="#faf8f4" font-family="'Noto Sans SC', sans-serif">本地</text>
+        </svg>
+        <div style="text-align:center; margin-top:8px; font-size:13px; color:#8a7355; font-weight:500; letter-spacing:2px;">BENDI</div>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 2: FOUNDER INSIGHT -->
+<div class="slide">
+  <svg class="blob-tr" width="180" height="160" viewBox="0 0 180 160"><ellipse cx="140" cy="40" rx="100" ry="80" fill="#8a7355" opacity="0.06"/></svg>
+  <svg class="blob-bl" width="160" height="140" viewBox="0 0 160 140"><ellipse cx="40" cy="100" rx="80" ry="70" fill="#c4a97a" opacity="0.06"/></svg>
+  <span class="page-num">02</span>
+  <div class="slide-content">
+    <div class="section-en">FOUNDER INSIGHT</div>
+    <div class="section-zh">我跑了几轮游学营之后，发现了三件事</div>
+
+    <p style="font-size:13px; color:#6b5c45; margin-bottom:24px; max-width:900px;">我创办了<strong>拾古学社</strong>，在大同独立完成多期文化遗产深度游学营的产品设计与全程交付。不是桌面研究——是收了钱、带了队、看了用户反应之后的判断。</p>
+
+    <div class="card-row" style="flex:1;">
+      <div class="card dark" style="display:flex; flex-direction:column;">
+        <div class="card-icon" style="background:rgba(196,169,122,0.2);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#c4a97a"/></svg>
+        </div>
+        <h3 style="font-size:17px; margin-bottom:10px;">参与式体验定价权<br>是观察式的 3–5 倍</h3>
+        <p style="font-size:12.5px; flex:1;">"看"和"做"之间有巨大的支付意愿断层。当体验绑定真实专家资质，受访者愿意支付景点门票的数倍。</p>
+        <div style="margin-top:12px;"><span class="tag" style="background:#c4a97a;">用户访谈 + 成交数据验证</span></div>
+      </div>
+      <div class="card dark" style="display:flex; flex-direction:column;">
+        <div class="card-icon" style="background:rgba(196,169,122,0.2);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M19 3H5C3.89 3 3 3.9 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM17 13H13V17H11V13H7V11H11V7H13V11H17V13Z" fill="#c4a97a"/></svg>
+        </div>
+        <h3 style="font-size:17px; margin-bottom:10px;">供给侧 100%<br>没有预订闭环</h3>
+        <p style="font-size:12.5px; flex:1;">系统调研 65 个非遗工坊，每一家成交路径都是：小红书→私信→微信→转账。零预订系统。</p>
+        <div style="margin-top:12px;"><span class="tag" style="background:#c4a97a;">65 工坊实地调研</span></div>
+      </div>
+      <div class="card dark" style="display:flex; flex-direction:column;">
+        <div class="card-icon" style="background:rgba(196,169,122,0.2);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22S19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="#c4a97a"/></svg>
+        </div>
+        <h3 style="font-size:17px; margin-bottom:10px;">北方文化遗产城市<br>被完全忽视</h3>
+        <p style="font-size:12.5px; flex:1;">OTC 小镇只做南方。南方"慢生活"产品语言与大同壁画修复、西安器物美学完全不兼容。</p>
+        <div style="margin-top:12px;"><span class="tag" style="background:#c4a97a;">认知壁垒 ≠ 资源壁垒</span></div>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 3: BROKEN MARKET + DATA VIZ -->
+<div class="slide">
+  <svg class="blob-tl" width="160" height="140" viewBox="0 0 160 140"><ellipse cx="40" cy="40" rx="100" ry="80" fill="#8a7355" opacity="0.06"/></svg>
+  <span class="page-num">03</span>
+  <div class="slide-content">
+    <div class="section-en">MARKET GAP</div>
+    <div class="section-zh">一个两边都 broken 的市场</div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="col" style="justify-content:center;">
+        <!-- SVG donut chart showing 0/65 -->
+        <div style="display:flex; align-items:center; gap:40px; margin-bottom:32px;">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#e8e2d8" stroke-width="20"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#3d3228" stroke-width="20" stroke-dasharray="0 377" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+            <text x="80" y="74" text-anchor="middle" font-size="36" font-weight="900" fill="#3d3228" font-family="'Noto Sans SC', sans-serif">0</text>
+            <text x="80" y="96" text-anchor="middle" font-size="11" fill="#8a7355" font-family="'Noto Sans SC', sans-serif">/ 65 工坊</text>
+          </svg>
+          <div>
+            <div style="font-size:15px; font-weight:700; color:#3d3228; margin-bottom:4px;">拥有预订系统的数量</div>
+            <div style="font-size:12px; color:#8a7355;">65 个非遗工坊实地调研</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:24px;">
+          <div style="text-align:center;">
+            <div style="font-size:36px; font-weight:900; color:#8a7355;">10+</div>
+            <div style="font-size:11px; color:#6b5c45; margin-top:4px;">平均私信往返次数<br>完成一次预订</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:36px; font-weight:900; color:#8a7355;">6,979</div>
+            <div style="font-size:11px; color:#6b5c45; margin-top:4px;">头部工坊单帖点赞<br>成交仍走微信转账</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col" style="gap:12px; justify-content:center;">
+        <div class="card" style="border-radius:12px; padding:20px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="rgba(138,115,85,0.12)"/><path d="M9 14L12.5 17.5L19 11" stroke="#8a7355" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <h3 style="margin:0;">旅行者的困境</h3>
+          </div>
+          <ul class="clean">
+            <li>内容平台能种草，无法直接成交</li>
+            <li>支付与信任保障缺失</li>
+            <li>每次预订耗时极长</li>
+          </ul>
+        </div>
+        <div class="card" style="border-radius:12px; padding:20px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="rgba(138,115,85,0.12)"/><path d="M14 8V14L18 16" stroke="#8a7355" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+            <h3 style="margin:0;">体验提供方的困境</h3>
+          </div>
+          <ul class="clean">
+            <li>不知道自己的日常有商业价值</li>
+            <li>获客完全依赖平台流量</li>
+            <li>售前沟通成本居高不下</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 4: WHY NOW + MARKET SIZE -->
+<div class="slide">
+  <svg class="blob-br" width="200" height="180" viewBox="0 0 200 180"><ellipse cx="140" cy="120" rx="120" ry="100" fill="#8a7355" opacity="0.05"/></svg>
+  <span class="page-num">04</span>
+  <div class="slide-content">
+    <div class="section-en">WHY NOW</div>
+    <div class="section-zh">三个窗口同时打开</div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="col" style="justify-content:space-between;">
+        <!-- 3 why-now cards stacked -->
+        <div style="display:flex; gap:12px; margin-bottom:24px;">
+          <div class="card" style="border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:#3d3228;">+20%</div>
+            <div style="font-size:11px; color:#8a7355; margin-top:4px;">黑神话·悟空后<br>大同搜索量增幅</div>
+          </div>
+          <div class="card" style="border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:#3d3228;">¥1.6亿</div>
+            <div style="font-size:11px; color:#8a7355; margin-top:4px;">上线两个月<br>山西景区门票收入</div>
+          </div>
+          <div class="card" style="border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:32px; font-weight:900; color:#3d3228;">2022</div>
+            <div style="font-size:11px; color:#8a7355; margin-top:4px;">Airbnb Experiences<br>退出中国</div>
+          </div>
+        </div>
+
+        <div style="font-size:13px; color:#4a3f35; line-height:1.7;">
+          <p><strong style="color:#8a7355;">① 流量已激活，供给空白。</strong>《黑神话》27 取景地在山西，游客到了，没有可买的体验。</p>
+          <p style="margin-top:8px;"><strong style="color:#8a7355;">② Z世代行为转变。</strong>"本地人带你玩" 小红书搜索量连续三年双位数增长。</p>
+          <p style="margin-top:8px;"><strong style="color:#8a7355;">③ 竞品真空。</strong>Airbnb 退出，OTC 只做南方，北方零竞争。</p>
+        </div>
+      </div>
+
+      <!-- Market size bubble chart -->
+      <div class="col" style="align-items:center; justify-content:center;">
+        <div style="font-size:13px; font-weight:700; color:#3d3228; text-align:center; margin-bottom:16px; letter-spacing:1px;">MARKET SIZE · 市场规模</div>
+        <svg width="420" height="360" viewBox="0 0 420 360">
+          <!-- TAM -->
+          <circle cx="150" cy="160" r="130" fill="#3d3228" opacity="0.08"/>
+          <text x="150" y="145" text-anchor="middle" font-size="22" font-weight="900" fill="#3d3228" font-family="'Noto Sans SC', sans-serif">¥300亿+</text>
+          <text x="150" y="170" text-anchor="middle" font-size="11" fill="#6b5c45" font-family="'Noto Sans SC', sans-serif">中国在线非标体验</text>
+          <text x="150" y="195" text-anchor="middle" font-size="10" font-weight="500" fill="#8a7355" font-family="'Noto Sans SC', sans-serif">TAM</text>
+          <!-- SAM -->
+          <circle cx="300" cy="180" r="80" fill="#8a7355" opacity="0.15"/>
+          <text x="300" y="170" text-anchor="middle" font-size="17" font-weight="900" fill="#3d3228" font-family="'Noto Sans SC', sans-serif">¥15–25亿</text>
+          <text x="300" y="190" text-anchor="middle" font-size="10" fill="#6b5c45" font-family="'Noto Sans SC', sans-serif">北方文化遗产城市</text>
+          <text x="300" y="210" text-anchor="middle" font-size="10" font-weight="500" fill="#8a7355" font-family="'Noto Sans SC', sans-serif">SAM</text>
+          <!-- SOM -->
+          <circle cx="360" cy="290" r="45" fill="#8a7355" opacity="0.9"/>
+          <text x="360" y="283" text-anchor="middle" font-size="11" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC', sans-serif">¥3,000–</text>
+          <text x="360" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC', sans-serif">5,000万</text>
+          <text x="360" y="316" text-anchor="middle" font-size="9" fill="#e0d6c8" font-family="'Noto Sans SC', sans-serif">SOM · 大同3年</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 5: PRODUCT + TRACTION -->
+<div class="slide">
+  <svg class="blob-tl" width="140" height="120" viewBox="0 0 140 120"><ellipse cx="30" cy="30" rx="80" ry="60" fill="#c4a97a" opacity="0.07"/></svg>
+  <span class="page-num">05</span>
+  <div class="slide-content">
+    <div class="section-en">PRODUCT & TRACTION</div>
+    <div class="section-zh">不是计划，是进度</div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="col">
+        <h2 style="margin-bottom:16px;">大同产品矩阵</h2>
+        <!-- Product cards -->
+        <div style="display:flex; flex-direction:column; gap:10px; flex:1;">
+          <div style="display:flex; align-items:stretch; gap:10px;">
+            <div class="card accent" style="border-radius:12px; padding:16px; flex:1;">
+              <div style="font-size:10px; letter-spacing:2px; opacity:0.7; margin-bottom:4px;">旗舰锚点</div>
+              <h3 style="font-size:14px; margin-bottom:6px; color:#faf8f4;">云冈壁画修复工作坊</h3>
+              <p style="font-size:11px; margin:0; color:#e0d6c8;">跟研究院修复师了解矿物颜料调制，带走编号临摹卡</p>
+              <div style="margin-top:10px; font-size:18px; font-weight:900; color:#faf8f4;">¥398–498</div>
+            </div>
+            <div class="card" style="border-radius:12px; padding:16px; flex:1;">
+              <div style="font-size:10px; letter-spacing:2px; color:#8a7355; margin-bottom:4px;">高频主粮</div>
+              <h3 style="font-size:14px; margin-bottom:6px;">城市漫步</h3>
+              <p style="font-size:11px; margin:0;">本地年轻人带队，去胡同和只有本地人知道的角落</p>
+              <div style="margin-top:10px; font-size:18px; font-weight:900; color:#3d3228;">¥168–228</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:stretch; gap:10px;">
+            <div class="card" style="border-radius:12px; padding:16px; flex:1;">
+              <div style="font-size:10px; letter-spacing:2px; color:#8a7355; margin-bottom:4px;">高频主粮</div>
+              <h3 style="font-size:14px; margin-bottom:6px;">东南邑空间叙事</h3>
+              <p style="font-size:11px; margin:0;">主理人带队走选址逻辑与街区改造史</p>
+              <div style="margin-top:10px; font-size:16px; font-weight:700; color:#3d3228;">¥188–268</div>
+            </div>
+            <div class="card" style="border-radius:12px; padding:16px; flex:1;">
+              <div style="font-size:10px; letter-spacing:2px; color:#8a7355; margin-bottom:4px;">高频主粮</div>
+              <h3 style="font-size:14px; margin-bottom:6px;">广灵剪纸手作</h3>
+              <p style="font-size:11px; margin:0;">以"做一件非遗"为核心，带走作品</p>
+              <div style="margin-top:10px; font-size:16px; font-weight:700; color:#3d3228;">¥168–228</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <h2 style="margin-bottom:16px;">已锁定的供给侧关系</h2>
+        <div style="display:flex; flex-direction:column; gap:8px; flex:1;">
+          <div style="display:flex; align-items:center; gap:12px; background:#f0ece4; border-radius:10px; padding:14px 16px;">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#3d3228"/><text x="16" y="21" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'Noto Sans SC'">云</text></svg>
+            <div><div style="font-size:13px; font-weight:700;">云冈石窟研究院</div><div style="font-size:11px; color:#8a7355;">已有合作基础 · 壁画修复独家</div></div>
+            <div style="margin-left:auto;"><span class="tag" style="font-size:10px; border-radius:4px;">已验证</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:#f0ece4; border-radius:10px; padding:14px 16px;">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#3d3228"/><text x="16" y="21" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'Noto Sans SC'">佳</text></svg>
+            <div><div style="font-size:13px; font-weight:700;">佳游大同</div><div style="font-size:11px; color:#8a7355;">城市漫步 · 深度导览</div></div>
+            <div style="margin-left:auto;"><span class="tag" style="font-size:10px; border-radius:4px;">已验证</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:#f0ece4; border-radius:10px; padding:14px 16px;">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#3d3228"/><text x="16" y="21" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'Noto Sans SC'">东</text></svg>
+            <div><div style="font-size:13px; font-weight:700;">东南邑艺术街区</div><div style="font-size:11px; color:#8a7355;">空间叙事 · 古宅改造</div></div>
+            <div style="margin-left:auto;"><span class="tag outline" style="font-size:10px; border-radius:4px;">关系已建立</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:#f0ece4; border-radius:10px; padding:14px 16px;">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#3d3228"/><text x="16" y="21" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'Noto Sans SC'">平</text></svg>
+            <div><div style="font-size:13px; font-weight:700;">平城学堂</div><div style="font-size:11px; color:#8a7355;">人文沙龙 · 城市课堂</div></div>
+            <div style="margin-left:auto;"><span class="tag outline" style="font-size:10px; border-radius:4px;">关系已建立</span></div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; background:#f0ece4; border-radius:10px; padding:14px 16px;">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#d4c9b8"/><text x="16" y="21" text-anchor="middle" font-size="14" fill="#faf8f4" font-family="'Noto Sans SC'">剪</text></svg>
+            <div><div style="font-size:13px; font-weight:700;">广灵剪纸传承人</div><div style="font-size:11px; color:#8a7355;">非遗手作体验</div></div>
+            <div style="margin-left:auto;"><span class="tag outline" style="font-size:10px; border-radius:4px;">初步接触</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 6: FROM SMALL TO BIG + AI -->
+<div class="slide">
+  <svg class="blob-br" width="240" height="200" viewBox="0 0 240 200"><ellipse cx="180" cy="140" rx="120" ry="100" fill="#3d3228" opacity="0.04"/></svg>
+  <span class="page-num">06</span>
+  <div class="slide-content">
+    <div class="section-en">SCALE NARRATIVE</div>
+    <div class="section-zh">一个文旅生意，为什么能成为 AI 时代的基础设施</div>
+
+    <!-- Scale flow diagram -->
+    <div style="display:flex; align-items:stretch; gap:0; flex:1; margin-top:8px;">
+      <!-- Stage 1 -->
+      <div style="flex:1; background:#3d3228; border-radius:16px 0 0 16px; padding:24px; color:#faf8f4; display:flex; flex-direction:column;">
+        <div style="font-size:10px; letter-spacing:3px; color:#c4a97a; margin-bottom:6px;">NOW</div>
+        <h3 style="font-size:16px; color:#faf8f4; margin-bottom:10px;">大同单城验证</h3>
+        <svg width="60" height="60" viewBox="0 0 60 60" style="margin-bottom:12px;">
+          <circle cx="30" cy="30" r="28" fill="none" stroke="#c4a97a" stroke-width="2"/>
+          <circle cx="30" cy="30" r="6" fill="#c4a97a"/>
+        </svg>
+        <p style="font-size:12px; color:#c4b89c; flex:1;">5–10 Host<br>微信小程序 MVP<br>M4 月平台收入 ¥5万<br>Host 留存 ≥80%</p>
+        <div style="font-size:11px; color:#8a7355; margin-top:8px;">证明：单城模型跑得通</div>
+      </div>
+      <!-- Arrow -->
+      <div style="display:flex; align-items:center; background:#f0ece4;">
+        <svg width="32" height="60" viewBox="0 0 32 60"><path d="M4 10L24 30L4 50" fill="none" stroke="#8a7355" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <!-- Stage 2 -->
+      <div style="flex:1; background:#f0ece4; padding:24px; display:flex; flex-direction:column;">
+        <div style="font-size:10px; letter-spacing:3px; color:#8a7355; margin-bottom:6px;">12 MONTHS</div>
+        <h3 style="font-size:16px; margin-bottom:10px;">北方城市网络</h3>
+        <svg width="60" height="60" viewBox="0 0 60 60" style="margin-bottom:12px;">
+          <circle cx="20" cy="30" r="12" fill="none" stroke="#8a7355" stroke-width="2"/>
+          <circle cx="40" cy="20" r="10" fill="none" stroke="#8a7355" stroke-width="2"/>
+          <circle cx="40" cy="42" r="8" fill="none" stroke="#8a7355" stroke-width="2"/>
+          <line x1="30" y1="28" x2="32" y2="22" stroke="#8a7355" stroke-width="1.5"/>
+          <line x1="30" y1="32" x2="34" y2="38" stroke="#8a7355" stroke-width="1.5"/>
+        </svg>
+        <p style="font-size:12px; color:#5c4a32; flex:1;">复制至西安 / 洛阳<br>Host 孵化方法论输出<br>积累<strong>结构化体验元数据</strong><br>入境游模块启动</p>
+        <div style="font-size:11px; color:#8a7355; margin-top:8px;">证明：方法论可复制</div>
+      </div>
+      <!-- Arrow -->
+      <div style="display:flex; align-items:center; background:#f7f4ee;">
+        <svg width="32" height="60" viewBox="0 0 32 60"><path d="M4 10L24 30L4 50" fill="none" stroke="#8a7355" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <!-- Stage 3 -->
+      <div style="flex:1.2; background:#8a7355; border-radius:0 16px 16px 0; padding:24px; color:#faf8f4; display:flex; flex-direction:column;">
+        <div style="font-size:10px; letter-spacing:3px; color:#e0d6c8; margin-bottom:6px;">36 MONTHS</div>
+        <h3 style="font-size:16px; color:#faf8f4; margin-bottom:10px;">AI 时代的体验基础设施</h3>
+        <svg width="60" height="60" viewBox="0 0 60 60" style="margin-bottom:12px;">
+          <rect x="8" y="8" width="44" height="44" rx="8" fill="none" stroke="#faf8f4" stroke-width="2"/>
+          <circle cx="30" cy="30" r="12" fill="none" stroke="#c4a97a" stroke-width="2"/>
+          <path d="M26 26L34 34M34 26L26 34" stroke="#c4a97a" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="8" x2="30" y2="18" stroke="#faf8f4" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <line x1="30" y1="42" x2="30" y2="52" stroke="#faf8f4" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <line x1="8" y1="30" x2="18" y2="30" stroke="#faf8f4" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <line x1="42" y1="30" x2="52" y2="30" stroke="#faf8f4" stroke-width="1.5" stroke-dasharray="3 2"/>
+        </svg>
+        <p style="font-size:12px; color:#e0d6c8; flex:1;">AI 旅行工具爆发<br>但<strong>无法凭空创造供给</strong><br>「本地」= 体验数据 API<br>AI 越强，我们越值钱</p>
+        <div style="font-size:11px; color:#c4a97a; margin-top:8px;">我们不会被 AI 替代<br>我们是 AI 旅行的供给层</div>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 7: BUSINESS MODEL + GROWTH -->
+<div class="slide">
+  <svg class="blob-tl" width="120" height="100" viewBox="0 0 120 100"><ellipse cx="30" cy="30" rx="60" ry="50" fill="#c4a97a" opacity="0.06"/></svg>
+  <span class="page-num">07</span>
+  <div class="slide-content">
+    <div class="section-en">BUSINESS MODEL</div>
+    <div class="section-zh">三引擎收入结构 + 增长飞轮</div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="col">
+        <!-- Revenue pie chart -->
+        <div style="display:flex; align-items:center; gap:24px; margin-bottom:20px;">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- Pie: Engine A ~25%, B ~55%, C ~20% -->
+            <circle cx="80" cy="80" r="70" fill="#f0ece4"/>
+            <!-- Engine A: 0 to 90 degrees (25%) -->
+            <path d="M80 80 L80 10 A70 70 0 0 1 150 80 Z" fill="#3d3228"/>
+            <!-- Engine B: 90 to 288 degrees (55%) -->
+            <path d="M80 80 L150 80 A70 70 0 1 1 47.5 142 Z" fill="#8a7355"/>
+            <!-- Engine C: 288 to 360 degrees (20%) -->
+            <path d="M80 80 L47.5 142 A70 70 0 0 1 80 10 Z" fill="#c4a97a"/>
+            <circle cx="80" cy="80" r="32" fill="#faf8f4"/>
+            <text x="80" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#3d3228" font-family="'Noto Sans SC'">M4 目标</text>
+            <text x="80" y="92" text-anchor="middle" font-size="14" font-weight="900" fill="#3d3228" font-family="'Noto Sans SC'">¥5万/月</text>
+          </svg>
+          <div style="font-size:12px; line-height:2;">
+            <div><span style="display:inline-block; width:10px; height:10px; background:#3d3228; border-radius:2px; margin-right:6px;"></span><strong>锚点</strong> 云冈旗舰 ¥836/场</div>
+            <div><span style="display:inline-block; width:10px; height:10px; background:#8a7355; border-radius:2px; margin-right:6px;"></span><strong>主粮</strong> 高频SKU ¥495/场</div>
+            <div><span style="display:inline-block; width:10px; height:10px; background:#c4a97a; border-radius:2px; margin-right:6px;"></span><strong>加购</strong> 衍生品 ¥50–80/件</div>
+          </div>
+        </div>
+
+        <!-- M1-M4 bar chart -->
+        <div style="font-size:12px; font-weight:700; color:#3d3228; margin-bottom:10px;">M1–M4 收入爬坡</div>
+        <div style="display:flex; align-items:flex-end; gap:12px; height:100px;">
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
+            <div style="font-size:11px; font-weight:700; color:#3d3228; margin-bottom:4px;">¥1.2万</div>
+            <div style="width:100%; height:24px; background:#d4c9b8; border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">M1</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
+            <div style="font-size:11px; font-weight:700; color:#3d3228; margin-bottom:4px;">¥2.6万</div>
+            <div style="width:100%; height:52px; background:#c4a97a; border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">M2</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
+            <div style="font-size:11px; font-weight:700; color:#3d3228; margin-bottom:4px;">¥4.0万</div>
+            <div style="width:100%; height:80px; background:#8a7355; border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">M3</div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; flex:1;">
+            <div style="font-size:11px; font-weight:900; color:#3d3228; margin-bottom:4px;">¥5.0万</div>
+            <div style="width:100%; height:100px; background:#3d3228; border-radius:4px 4px 0 0;"></div>
+            <div style="font-size:10px; font-weight:700; color:#3d3228; margin-top:4px;">M4</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col" style="justify-content:center;">
+        <!-- Growth flywheel SVG -->
+        <div style="font-size:12px; font-weight:700; color:#3d3228; margin-bottom:12px; text-align:center;">GROWTH FLYWHEEL · 增长飞轮</div>
+        <svg width="440" height="340" viewBox="0 0 440 340">
+          <!-- Central circle -->
+          <circle cx="220" cy="170" r="45" fill="#8a7355"/>
+          <text x="220" y="165" text-anchor="middle" font-size="11" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">体验品质</text>
+          <text x="220" y="182" text-anchor="middle" font-size="11" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">持续上升</text>
+
+          <!-- Top: 优质Host -->
+          <rect x="160" y="20" width="120" height="48" rx="10" fill="#3d3228"/>
+          <text x="220" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">优质 Host</text>
+          <!-- Arrow down-right -->
+          <path d="M280 50 C320 50 350 80 350 105" fill="none" stroke="#c4a97a" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Right: 用户内容 -->
+          <rect x="310" y="105" width="120" height="48" rx="10" fill="#f0ece4"/>
+          <text x="370" y="135" text-anchor="middle" font-size="12" font-weight="600" fill="#3d3228" font-family="'Noto Sans SC'">用户自发内容</text>
+          <!-- Arrow down-left -->
+          <path d="M370 153 C370 200 340 240 300 260" fill="none" stroke="#c4a97a" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Bottom: 更多订单 -->
+          <rect x="190" y="250" width="120" height="48" rx="10" fill="#f0ece4"/>
+          <text x="250" y="280" text-anchor="middle" font-size="12" font-weight="600" fill="#3d3228" font-family="'Noto Sans SC'">更多订单</text>
+          <!-- Arrow left-up -->
+          <path d="M190 268 C140 260 90 230 70 195" fill="none" stroke="#c4a97a" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <!-- Left: 品牌可信度 -->
+          <rect x="10" y="145" width="120" height="48" rx="10" fill="#f0ece4"/>
+          <text x="70" y="175" text-anchor="middle" font-size="12" font-weight="600" fill="#3d3228" font-family="'Noto Sans SC'">品牌可信度 ↑</text>
+          <!-- Arrow up-right -->
+          <path d="M100 145 C120 100 150 70 160 56" fill="none" stroke="#c4a97a" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#c4a97a"/>
+            </marker>
+          </defs>
+
+          <!-- Bottom note -->
+          <text x="220" y="325" text-anchor="middle" font-size="11" fill="#8a7355" font-family="'Noto Sans SC'">云冈旗舰体验 = 天然内容素材，启动成本极低</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 8: ROADMAP TIMELINE -->
+<div class="slide">
+  <svg class="blob-bl" width="180" height="160" viewBox="0 0 180 160"><ellipse cx="40" cy="120" rx="100" ry="80" fill="#8a7355" opacity="0.05"/></svg>
+  <svg class="blob-tr" width="140" height="120" viewBox="0 0 140 120"><ellipse cx="100" cy="30" rx="80" ry="60" fill="#c4a97a" opacity="0.05"/></svg>
+  <span class="page-num">08</span>
+  <div class="slide-content">
+    <div class="section-en">ROADMAP</div>
+    <div class="section-zh">从验证到扩张</div>
+
+    <!-- SVG Timeline -->
+    <div style="flex:1; display:flex; align-items:center;">
+      <svg width="1120" height="440" viewBox="0 0 1120 440">
+        <!-- Main timeline line -->
+        <line x1="60" y1="220" x2="1060" y2="220" stroke="#d4c9b8" stroke-width="3"/>
+
+        <!-- Phase 1 -->
+        <circle cx="180" cy="220" r="12" fill="#3d3228"/>
+        <rect x="80" y="50" width="200" height="140" rx="12" fill="#3d3228"/>
+        <line x1="180" y1="190" x2="180" y2="208" stroke="#3d3228" stroke-width="2"/>
+        <text x="180" y="78" text-anchor="middle" font-size="10" letter-spacing="2" fill="#c4a97a" font-family="'Noto Sans SC'">PHASE 1 · M1–M6</text>
+        <text x="180" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">大同单城验证</text>
+        <text x="180" y="125" text-anchor="middle" font-size="11" fill="#c4b89c" font-family="'Noto Sans SC'">5–10 Host · 小程序 MVP</text>
+        <text x="180" y="145" text-anchor="middle" font-size="11" fill="#c4b89c" font-family="'Noto Sans SC'">月收入 ¥5万+ · Host留存 ≥80%</text>
+        <text x="180" y="165" text-anchor="middle" font-size="11" fill="#c4b89c" font-family="'Noto Sans SC'">口碑转化 ≥20%</text>
+
+        <!-- Phase 2 -->
+        <circle cx="520" cy="220" r="12" fill="#8a7355"/>
+        <rect x="400" y="260" width="240" height="130" rx="12" fill="#f0ece4"/>
+        <line x1="520" y1="232" x2="520" y2="260" stroke="#8a7355" stroke-width="2"/>
+        <text x="520" y="288" text-anchor="middle" font-size="10" letter-spacing="2" fill="#8a7355" font-family="'Noto Sans SC'">PHASE 2 · M7–M18</text>
+        <text x="520" y="312" text-anchor="middle" font-size="15" font-weight="700" fill="#3d3228" font-family="'Noto Sans SC'">扩展至西安 / 洛阳</text>
+        <text x="520" y="335" text-anchor="middle" font-size="11" fill="#6b5c45" font-family="'Noto Sans SC'">Host 方法论输出 · 自助后台</text>
+        <text x="520" y="355" text-anchor="middle" font-size="11" fill="#6b5c45" font-family="'Noto Sans SC'">入境游模块 · 结构化数据积累</text>
+        <text x="520" y="375" text-anchor="middle" font-size="11" fill="#6b5c45" font-family="'Noto Sans SC'">冷启动时间 &lt; Phase 1 的 50%</text>
+
+        <!-- Phase 3 -->
+        <circle cx="860" cy="220" r="12" fill="#c4a97a"/>
+        <rect x="720" y="50" width="280" height="140" rx="12" fill="#8a7355"/>
+        <line x1="860" y1="190" x2="860" y2="208" stroke="#8a7355" stroke-width="2"/>
+        <text x="860" y="78" text-anchor="middle" font-size="10" letter-spacing="2" fill="#e0d6c8" font-family="'Noto Sans SC'">PHASE 3 · M19+</text>
+        <text x="860" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">全国化 + AI 数据基础设施</text>
+        <text x="860" y="125" text-anchor="middle" font-size="11" fill="#e0d6c8" font-family="'Noto Sans SC'">100+ Host · 自助入驻平台</text>
+        <text x="860" y="145" text-anchor="middle" font-size="11" fill="#e0d6c8" font-family="'Noto Sans SC'">体验元数据库 → API 商业化</text>
+        <text x="860" y="165" text-anchor="middle" font-size="11" fill="#e0d6c8" font-family="'Noto Sans SC'">AI 旅行工具的供给层</text>
+
+        <!-- Milestones -->
+        <text x="180" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#3d3228" font-family="'Noto Sans SC'">2026 H1</text>
+        <text x="520" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#8a7355" font-family="'Noto Sans SC'">2026 H2 – 2027</text>
+        <text x="860" y="248" text-anchor="middle" font-size="10" font-weight="700" fill="#8a7355" font-family="'Noto Sans SC'">2028+</text>
+
+        <!-- Key metrics bar -->
+        <rect x="120" y="410" width="130" height="24" rx="6" fill="#3d3228"/>
+        <text x="185" y="426" text-anchor="middle" font-size="10" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">¥5万/月 单城</text>
+
+        <rect x="440" y="410" width="160" height="24" rx="6" fill="#8a7355" opacity="0.6"/>
+        <text x="520" y="426" text-anchor="middle" font-size="10" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">多城网络效应</text>
+
+        <rect x="780" y="410" width="160" height="24" rx="6" fill="#8a7355"/>
+        <text x="860" y="426" text-anchor="middle" font-size="10" font-weight="700" fill="#faf8f4" font-family="'Noto Sans SC'">数据资产独立价值</text>
+      </svg>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+<!-- SLIDE 9: THE ASK -->
+<div class="slide">
+  <svg class="blob-tl" width="200" height="180" viewBox="0 0 200 180"><ellipse cx="60" cy="60" rx="120" ry="100" fill="#3d3228" opacity="0.04"/></svg>
+  <svg class="blob-br" width="280" height="240" viewBox="0 0 280 240">
+    <ellipse cx="200" cy="160" rx="140" ry="120" fill="#8a7355" opacity="0.06"/>
+    <ellipse cx="240" cy="100" rx="80" ry="60" fill="#c4a97a" opacity="0.08"/>
+  </svg>
+  <span class="page-num">09</span>
+  <div class="slide-content">
+    <div class="section-en">THE ASK</div>
+    <div class="section-zh">我们在找什么</div>
+
+    <div class="two-col" style="flex:1;">
+      <div class="col" style="justify-content:center;">
+        <div class="card dark" style="border-radius:16px; padding:32px; margin-bottom:20px;">
+          <div style="font-size:10px; letter-spacing:3px; color:#c4a97a; margin-bottom:8px;">PRE-SEED ROUND</div>
+          <div style="font-size:42px; font-weight:900; color:#faf8f4; margin-bottom:8px;">¥150–250万</div>
+          <p style="font-size:13px; color:#c4b89c;">支持大同验证期 + 首次城市扩展启动<br>创始团队自有资金已支持至今</p>
+        </div>
+
+        <!-- Fund allocation -->
+        <div style="display:flex; gap:8px;">
+          <div class="card" style="border-radius:10px; padding:14px; text-align:center; flex:1;">
+            <div style="font-size:24px; font-weight:900; color:#3d3228;">~50%</div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">人员</div>
+          </div>
+          <div class="card" style="border-radius:10px; padding:14px; text-align:center; flex:1;">
+            <div style="font-size:24px; font-weight:900; color:#3d3228;">~25%</div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">产品技术</div>
+          </div>
+          <div class="card" style="border-radius:10px; padding:14px; text-align:center; flex:1;">
+            <div style="font-size:24px; font-weight:900; color:#3d3228;">~15%</div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">Host孵化</div>
+          </div>
+          <div class="card" style="border-radius:10px; padding:14px; text-align:center; flex:1;">
+            <div style="font-size:24px; font-weight:900; color:#3d3228;">~10%</div>
+            <div style="font-size:10px; color:#8a7355; margin-top:4px;">法务储备</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col" style="justify-content:center;">
+        <div class="card" style="border-radius:16px; padding:24px; margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="card-icon warm" style="width:36px; height:36px; border-radius:10px;">
+              <svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 1L11.5 6L17 7L13 11L14 17L9 14L4 17L5 11L1 7L6.5 6L9 1Z" fill="#faf8f4"/></svg>
+            </div>
+            <h3 style="margin:0; font-size:15px;">投资人获得</h3>
+          </div>
+          <ul class="clean">
+            <li>北方文化遗产体验赛道的最早期入场权</li>
+            <li>已有真实供给关系和付费用户基础的团队</li>
+            <li>AI 时代稀缺的结构化体验数据资产</li>
+          </ul>
+        </div>
+
+        <div class="card" style="border-radius:16px; padding:24px;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div class="card-icon warm" style="width:36px; height:36px; border-radius:10px;">
+              <svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="6" r="4" fill="#faf8f4"/><path d="M1 16C1 12.5 4.5 10 9 10C13.5 10 17 12.5 17 16" fill="#faf8f4"/></svg>
+            </div>
+            <h3 style="margin:0; font-size:15px;">也在找</h3>
+          </div>
+          <ul class="clean">
+            <li><strong>联合创始人</strong> — 产品/技术背景</li>
+            <li><strong>酒店合作方</strong> — 大同本地，5%零风险分成</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:16px;">
+      <div style="font-size:14px; color:#3d3228; font-style:italic; max-width:700px; margin:0 auto; line-height:1.7;">
+        "Phase 1 结束时，我们将持有：真实订单数据、真实 Host 留存、<br>以及一套在大同跑通的单城模型。那不是故事——是可以被审计的数字。"
+      </div>
+    </div>
+  </div>
+  <span class="brand-tag">本地 · Bendi</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 对教育与职业结构的渗透率评估 — Zhanyi Qi</title>
+    <link rel="stylesheet" href="../../../global/css/style.css">
+    <style>
+        .project-page {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+        .project-img {
+            width: 30.14159%;
+            min-width: 0;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(248,211,28,0.28), transparent 40%),
+                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.12), transparent 35%),
+                linear-gradient(180deg, #161616 0%, #080808 100%);
+        }
+        .project-panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 1.6rem;
+        }
+        .panel-kicker {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.72);
+        }
+        .panel-matrix {
+            display: grid;
+            gap: 0.75rem;
+        }
+        .panel-chip {
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 0.85rem 0.9rem;
+            background: rgba(255,255,255,0.03);
+        }
+        .panel-chip strong {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+        .panel-chip span {
+            font-size: 0.74rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.72);
+        }
+        .project-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 6rem;
+            min-width: 0;
+        }
+        .project-text .back {
+            font-weight: 200;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .project-text .back:hover { color: var(--gold); }
+        .project-text .back::before { content: '\2190 '; }
+        .project-text h1 {
+            font-family: var(--font-cn);
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .project-text .subtitle {
+            display: inline-block;
+            font-weight: 200;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+        }
+        .project-text p {
+            font-family: var(--font-cn);
+            font-weight: 400;
+            font-size: 0.95rem;
+            line-height: 2.1;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+        .sources-section {
+            padding: 4rem 6rem 5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .sources-section h2 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+        .source-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .source-card:hover {
+            border-color: rgba(248,211,28,0.3);
+        }
+        .source-card .source-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+        .source-card .source-desc {
+            font-family: var(--font-cn);
+            font-weight: 200;
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .project-page {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .project-img {
+                width: 100%;
+                min-height: 34vh;
+            }
+            .project-text { padding: 2rem 1.5rem; }
+            .project-text h1 { font-size: 1.6rem; }
+            .sources-section { padding: 3rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nav" class="scrolled">
+    <a href="../../../home/home.html" class="site-name">Zhanyi Qi</a>
+    <div class="nav-links">
+        <a href="../../../home/home.html">Home</a>
+        <div class="dropdown">
+            <a href="../../../ventures/index.html">Ventures <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../../ventures/V- 拾古学社 - 2025/shiguxueshe.html">拾古学社</a>
+                <a href="../../../ventures/V - bendi - now/bendi.html">Bendi 本地</a>
+                <a href="../../../ventures/V - 讲座 - now/lectures.html">宗教与文化公益讲座</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../../index.html" class="active">Projects <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content dropdown-content-nested">
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#selected-works" class="dropdown-parent-link">Selected Works</a>
+                    <div class="dropdown-submenu">
+                        <a href="../../Selected Works/R - tourism - 2025/ai-tourism.html">AI旅行助手的使用动机与决策逻辑</a>
+                        <a href="../../Selected Works/R - Web3 - 2025/web3.html">加密货币去中心化叙事的话语分析</a>
+                        <a href="../../Selected Works/R - AI - 2025/ai-compute-fairness.html">协作式AI算力平台中的任务调度优化与公平性指标设计</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#case-archive" class="dropdown-parent-link">Case Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="../C - DIC - 2024/dic-2024.html">通过智慧钱包降低加州政府救济金诈骗</a>
+                        <a href="../C - DIC - 2025/dic-2025.html">通过新型闸机协助 MTA 降低逃票率</a>
+                        <a href="mcm.html">AI 对教育与职业结构的渗透率评估</a>
+                        <a href="../C - TimeSeries - 2025/time-series-prediction.html">时间序列预测</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../../index.html#research-archive" class="dropdown-parent-link">Research Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="../../Research Archive/R - 东大寺 - 2022/todaiji.html">东大寺与国家佛教政治</a>
+                        <a href="../../Research Archive/R - Nepal - 2024/richter.html">尼泊尔唐卡市场与新殖民主义机制</a>
+                        <a href="../../Research Archive/biblical-research.html">圣经文本与基督教教义研究</a>
+                        <a href="../../Research Archive/yongan-temple.html">永安寺裂面明王壁画研究</a>
+                        <a href="../../Research Archive/chemical-analysis.html">考古文物化学成分分析研究</a>
+                        <a href="../../Research Archive/ai-artwork.html">AI艺术作品价格预测</a>
+                        <a href="../../Research Archive/mahabharata-study.html">《摩诃婆罗多》文本与史诗传统研究</a>
+                        <a href="../../Research Archive/hiphop-study.html">嘻哈文化与社会表达研究</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../../../writings/writing.html">Writings <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../../writings/writing.html">Coming soon</a>
+            </div>
+        </div>
+        <a href="../../../index/collections.html">Index</a>
+        <a href="../../../contact/contact.html">Contact</a>
+    </div>
+</nav>
+
+<div class="project-page">
+    <div class="project-img">
+        <div class="project-panel">
+            <div class="panel-kicker">MCM / Modeling</div>
+            <div class="panel-matrix">
+                <div class="panel-chip">
+                    <strong>Skill Index</strong>
+                    <span>把 AI 对技能项的影响映射为可比较的向量化指标。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Knowledge Index</strong>
+                    <span>以知识维度补足单纯岗位视角无法解释的教育变化。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Work Activity Index</strong>
+                    <span>连接任务结构、职业变化与课程改造之间的中间层。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Job / Course Mapping</strong>
+                    <span>让教育系统与就业系统进入同一套可计算、可审计的坐标系。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="project-text">
+        <a href="../../index.html" class="back">Projects</a>
+        <h1>AI 对教育与职业结构的渗透率评估</h1>
+        <div class="subtitle">美赛建模案例</div>
+        <p>这项建模工作的真正难点，并不在于做出一个看起来复杂的指数，而在于如何在教育系统与就业系统之间找到一个既可解释、又可计算的中间层。直接讨论“AI 会不会替代某个职业”太粗糙，直接讨论“学校应该开什么课”又太分散。材料里最有价值的判断，是把职业继续向下拆解为 skills、knowledge 与 work activities 三层，再用 O*NET 提供的结构化数据把这些要素重新组织成可以聚合、比较和映射的分析框架。</p>
+        <p>也正因为如此，这个项目并不只是一个关于 AI 的风险预测，而更接近一种制度接口设计。团队试图通过 CTS 向量空间把 AI 对不同要素的影响量化，再分别生成 Skill Index、Knowledge Index 与 Work Activity Index，最后用重要度权重汇总为 Job Index，同时反向映射到课程层面的 Course Index。换句话说，问题不再是“某个职业会不会消失”，而是“教育侧今天培养的能力结构，与职业侧未来变化的任务结构之间，究竟出现了哪些错位和可调整空间”。</p>
+        <p>这项工作让我更清楚地意识到，建模真正有力量的时候，往往不是替现实给出一个夸张预测，而是为原本彼此断裂的讨论提供同一套语言。政府关心劳动力结构，学校关心课程改革，学生关心职业路径，但如果三者没有共同的表示方式，所有判断最终都会退回空泛的口号。这个案例的价值，正是在于它把这些问题暂时压到同一张结构图上，使“AI 影响了什么”第一次可以被拆成细项、被排序、被比较，也因此有可能被真正用于决策。</p>
+    </div>
+</div>
+
+<div class="sources-section">
+    <h2>Framework & Key Moves</h2>
+    <div class="source-grid">
+        <div class="source-card">
+            <div class="source-title">Middle-Layer Model</div>
+            <div class="source-desc">模型明确放在教育侧与政府侧之间，目标不是替代任何一端，而是提供共同的分析接口。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">O*NET as Base</div>
+            <div class="source-desc">以 O*NET 的 skills、knowledge、work activities 和 importance 评分作为统一数据底座。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">CTS Vectorization</div>
+            <div class="source-desc">将要素映射到 Cognitive / Technical / Social 三维空间，再与 AI 影响向量做点积生成原子指数。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Job Index</div>
+            <div class="source-desc">把三类原子指数按重要度聚合成职业层面的汇总指标，服务于劳动力结构和职业变化判断。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Course Index</div>
+            <div class="source-desc">将课程拆解为其培养的能力与活动，再把职业变化压力重新映射回教育改革议题。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Primary Materials</div>
+            <div class="source-desc">核心材料包括建模报告、比赛论文与围绕教育侧映射所整理的分析文件，重点用于支撑指标构造与结果解释。</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p class="copyright">&copy; 2026 Zhanyi Qi</p>
+</footer>
+
+</body>
+</html>

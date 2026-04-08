@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI艺术作品价格预测 — Zhanyi Qi</title>
+    <link rel="stylesheet" href="../../global/css/style.css">
+    <style>
+        .project-page {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+        .project-img {
+            width: 30.14159%;
+            min-width: 0;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 18% 18%, rgba(248,211,28,0.28), transparent 42%),
+                radial-gradient(circle at 75% 28%, rgba(255,255,255,0.1), transparent 36%),
+                linear-gradient(180deg, #171717 0%, #080808 100%);
+        }
+        .project-panel {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 1.6rem;
+        }
+        .panel-kicker {
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.72);
+        }
+        .panel-matrix {
+            display: grid;
+            gap: 0.75rem;
+        }
+        .panel-chip {
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 0.85rem 0.9rem;
+            background: rgba(255,255,255,0.03);
+        }
+        .panel-chip strong {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--gold);
+            margin-bottom: 0.25rem;
+        }
+        .panel-chip span {
+            font-size: 0.74rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.72);
+        }
+        .project-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 6rem;
+            min-width: 0;
+        }
+        .project-text .back {
+            font-weight: 200;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .project-text .back:hover { color: var(--gold); }
+        .project-text .back::before { content: '\2190 '; }
+        .project-text h1 {
+            font-family: var(--font-cn);
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .project-text .subtitle {
+            display: inline-block;
+            font-weight: 200;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+        }
+        .project-text p {
+            font-family: var(--font-cn);
+            font-weight: 400;
+            font-size: 0.95rem;
+            line-height: 2.1;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+        .sources-section {
+            padding: 4rem 6rem 5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .sources-section h2 {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+        .source-card {
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 1.5rem;
+            transition: border-color 0.2s;
+        }
+        .source-card:hover {
+            border-color: rgba(248,211,28,0.3);
+        }
+        .source-card .source-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 0.35rem;
+        }
+        .source-card .source-desc {
+            font-family: var(--font-cn);
+            font-weight: 200;
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .project-page {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .project-img {
+                width: 100%;
+                min-height: 34vh;
+            }
+            .project-text { padding: 2rem 1.5rem; }
+            .project-text h1 { font-size: 1.6rem; }
+            .sources-section { padding: 3rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="nav" class="scrolled">
+    <a href="../../home/home.html" class="site-name">Zhanyi Qi</a>
+    <div class="nav-links">
+        <a href="../../home/home.html">Home</a>
+        <div class="dropdown">
+            <a href="../../ventures/index.html">Ventures <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../ventures/V- 拾古学社 - 2025/shiguxueshe.html">拾古学社</a>
+                <a href="../../ventures/V - bendi - now/bendi.html">Bendi 本地</a>
+                <a href="../../ventures/V - 讲座 - now/lectures.html">宗教与文化公益讲座</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../index.html" class="active">Projects <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content dropdown-content-nested">
+                <div class="dropdown-item-group">
+                    <a href="../index.html#selected-works" class="dropdown-parent-link">Selected Works</a>
+                    <div class="dropdown-submenu">
+                        <a href="../Selected Works/R - tourism - 2025/ai-tourism.html">AI旅行助手的使用动机与决策逻辑</a>
+                        <a href="../Selected Works/R - Web3 - 2025/web3.html">加密货币去中心化叙事的话语分析</a>
+                        <a href="../Selected Works/R - AI - 2025/ai-compute-fairness.html">协作式AI算力平台中的任务调度优化与公平性指标设计</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../index.html#case-archive" class="dropdown-parent-link">Case Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="../Case Archive/C - DIC - 2024/dic-2024.html">通过智慧钱包降低加州政府救济金诈骗</a>
+                        <a href="../Case Archive/C - DIC - 2025/dic-2025.html">通过新型闸机协助 MTA 降低逃票率</a>
+                        <a href="../Case Archive/C - MCM - 2026/mcm.html">AI 对教育与职业结构的渗透率评估</a>
+                        <a href="../Case Archive/C - TimeSeries - 2025/time-series-prediction.html">时间序列预测</a>
+                    </div>
+                </div>
+                <div class="dropdown-item-group">
+                    <a href="../index.html#research-archive" class="dropdown-parent-link">Research Archive</a>
+                    <div class="dropdown-submenu">
+                        <a href="R - 东大寺 - 2022/todaiji.html">东大寺与国家佛教政治</a>
+                        <a href="R - Nepal - 2024/richter.html">尼泊尔唐卡市场与新殖民主义机制</a>
+                        <a href="biblical-research.html">圣经文本与基督教教义研究</a>
+                        <a href="yongan-temple.html">永安寺裂面明王壁画研究</a>
+                        <a href="chemical-analysis.html">考古文物化学成分分析研究</a>
+                        <a href="ai-artwork.html">AI艺术作品价格预测</a>
+                        <a href="mahabharata-study.html">《摩诃婆罗多》文本与史诗传统研究</a>
+                        <a href="hiphop-study.html">嘻哈文化与社会表达研究</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="../../writings/writing.html">Writings <span class="dropdown-arrow">&#9660;</span></a>
+            <div class="dropdown-content">
+                <a href="../../writings/writing.html">Coming soon</a>
+            </div>
+        </div>
+        <a href="../../index/collections.html">Index</a>
+        <a href="../../contact/contact.html">Contact</a>
+    </div>
+</nav>
+
+<div class="project-page">
+    <div class="project-img">
+        <div class="project-panel">
+            <div class="panel-kicker">Research / Quantitative</div>
+            <div class="panel-matrix">
+                <div class="panel-chip">
+                    <strong>Question</strong>
+                    <span>平台上的哪些可观测特征真正影响 AI 艺术作品的成交价格。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Variables</strong>
+                    <span>创作者属性、作品风格、互动指标、上架环境与价格区间的联动结构。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Models</strong>
+                    <span>以线性回归、KNN 与随机森林对比解释力、稳定性与预测表现。</span>
+                </div>
+                <div class="panel-chip">
+                    <strong>Use</strong>
+                    <span>把“审美市场”还原为可拆解的价格形成机制，而不是只做黑箱预测。</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="project-text">
+        <a href="../index.html" class="back">Projects</a>
+        <h1>AI艺术作品价格预测</h1>
+        <div class="subtitle">基于平台数据的统计与机器学习分析</div>
+        <p>这项研究关心的不是“哪一个模型精度最高”这样单薄的问题，而是一个更接近数字文化经济学的判断：在 AI 艺术交易平台上，价格到底是被什么结构性因素推起来的。AI 生成艺术看起来像一个高度主观的市场，但一旦进入平台环境，作品风格、创作者标签、互动表现、发布时间与受众反应就都被转化成了可记录的数据。真正有意思的地方，正是在于这些变量如何共同塑造了一个看似审美驱动、实则强依赖平台机制的定价空间。</p>
+        <p>因此，这个项目采取的是一条先解释、再预测的路径。线性回归负责识别较清楚的变量关系，帮助判断哪些因素对价格变化具有稳定方向；KNN 用来观察相似作品之间的局部聚类规律，检验平台中是否存在风格或创作者层面的邻近效应；随机森林则进一步处理非线性关系和交互项，避免把复杂市场过度压缩成单一的线性叙述。模型之间的比较意义，不在于炫耀算法多样，而在于确认这个市场究竟更像一个可解释的规则系统，还是一个由多重条件共同驱动的高噪声环境。</p>
+        <p>我保留这项研究，是因为它代表了我在文本、田野和历史研究之外的另一种训练方式。它要求我把模糊的市场直觉拆成变量设计、数据清洗、特征选择与结果解释这些更硬的环节，也迫使我面对一个常被忽略的问题：当“艺术价值”被平台化以后，我们究竟是在预测审美，还是在预测一种由分发逻辑、流量信号和创作者身份共同生成的可见性溢价。这个转折，让项目不只是一次机器学习练习，而是一次关于数字艺术市场结构的分析实验。</p>
+    </div>
+</div>
+
+<div class="sources-section">
+    <h2>Framework & Materials</h2>
+    <div class="source-grid">
+        <div class="source-card">
+            <div class="source-title">Platform Dataset</div>
+            <div class="source-desc">以平台交易与展示数据为核心，整理作品属性、创作者信息、互动表现与价格变量。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Feature Engineering</div>
+            <div class="source-desc">围绕风格分类、账号层级、互动强度与价格尺度完成变量编码、异常值处理与标准化。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Linear Regression</div>
+            <div class="source-desc">用于判断变量方向和显著性，保留对价格机制最清楚的解释框架。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">KNN Comparison</div>
+            <div class="source-desc">观察局部相似性是否构成定价参考系，辅助识别风格与用户偏好的邻近关系。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Random Forest</div>
+            <div class="source-desc">处理非线性与交互项，让平台机制下的复杂影响路径能够被更稳地捕捉。</div>
+        </div>
+        <div class="source-card">
+            <div class="source-title">Interpretive Goal</div>
+            <div class="source-desc">核心目标不是给出单次预测，而是解释 AI 艺术市场中“可见性”如何转换为“价格”。</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p class="copyright">&copy; 2026 Zhanyi Qi</p>
+</footer>
+
+</body>
+</html>

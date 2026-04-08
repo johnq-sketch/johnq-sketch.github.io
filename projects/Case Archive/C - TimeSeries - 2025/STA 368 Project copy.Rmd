@@ -1,0 +1,257 @@
+---
+title: "STA 368 Project"
+author: "Yue (Emily) Wang"
+date: "2025-11-29"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Executive Summary
+
+
+## Problem Description
+
+In this report, we will explore the data set concerning the daily electricity demand from beginning of the year 2020 to the end of year 2024, which focuses on the six largest balancing authorities in the eastern United States. 
+We aim to answer the following questions of interest: first, what is the patterns and growth in electricity demand during the given time interval. Second, is there any sudden changes or anomalies in the demand patterns during this period of time. Third, in order to guide the operational planning in 2025, forecasts the first 12 weekly demand into 2025 and find the maximum daily demand estimates in the next 12 weeks. 
+
+## Exploratory Data Analysis
+
+```{r}
+library(tidyverse)
+library(forecast)
+library(ggplot2)
+library(zoo)
+```
+
+```{r}
+demand_raw <- read_csv("electricity_demand.csv")
+
+demand <- demand_raw |>
+  filter(Type == "Demand") |>
+  mutate(Date = as.Date(Date))
+```
+
+```{r}
+table(demand$Code)
+```
+
+```{r}
+ggplot(demand, aes(x = Date, y = Value)) + # "value" refers to the amount of electricity used that day
+  geom_line() +
+  facet_wrap(~ Code, scales = "free_y") + #  "code" refers to each balancing authority (CPLE, DUK, NYIS, PJM, SOCO, TVA); each plot have its own y-scales
+  scale_x_date("") +
+  scale_y_continuous("Daily electricity demand (MWh)") +
+  labs(title = "Figure 1.1: Daily Electricity Demand by Balancing Authority") +
+  theme_minimal()
+```
+
+Based on what we observed from Figure 1.1, all balancing authorities have shown an annual seasonality in electricity demand. If we look into the plots, we can see that the electricity demand would always be higher during winter and summer (see the peaks during each year) while there will be relatively less electricity demand during spring and fall. 
+It is also worth noticing that each balancing authority have different scales for daily electricity demand. Specifically, PJM has the largest daily demand (millions of MWh), SOCO and NYIS are mid-sized, CPLE and TVA are smaller. This is mainly caused by the territory and population difference that each balancing authority in charge of.  
+
+```{r}
+demand_smoothed <- demand |>
+  arrange(Code, Date) |>
+  group_by(Code) |>
+  mutate(roll30 = rollmean(Value, k = 30, align = "center", fill = NA)) |> # this line of code is adapted based on class example (CO2)
+  ungroup()
+
+ggplot(demand_smoothed) +
+  geom_line(aes(x = Date, y = Value), color = "black") +
+  geom_line(aes(x = Date, y = roll30), color = "gold") +
+  facet_wrap(~ Code, scales = "free_y") +
+  scale_x_date("") +
+  scale_y_continuous("Daily electricity demand (MWh)") +
+  labs(title = "Figure 1.2: Figure 1.1 with 30 Days Rolling Mean") +
+  theme_minimal()
+```
+
+Since there are too much noise per day in Figure 1.1, we adapt a 30-days (a month) rolling average to smooth out daily noise and the weekly pattern. It allows the plot to better reflect the repeating cycle annually. Because of the daily noise, we would proceed to aggregate the data into weekly demand. Here, for modeling purpose, we only kept the weeks roughly from early 2020 to the last full week of 2024.
+
+```{r}
+weekly <- demand |>
+  mutate(
+    # "week_start" is marked as Monday of each week
+    week_start = Date - (as.integer(format(Date, "%u")) - 1))|> # this line of code is adapted from https://www.r-bloggers.com/2013/08/date-formats-in-r/ 
+  group_by(Code, week_start) |>
+  summarize(week_MWh = sum(Value), .groups = "drop") |>
+  arrange(Code, week_start)
+```
+
+```{r}
+weekly_yearly <- weekly |>
+  mutate(year = as.integer(format(week_start, "%Y"))) |> # this line of code is adapted from https://www.r-bloggers.com/2013/08/date-formats-in-r/; however, this caused the start of the week to be in 2019 instead of 2020 as shown in the data set
+  filter(week_start >= as.Date("2020-01-01")) |>
+  filter(year <= 2024) |>
+  group_by(Code, year) |>
+  summarise(mean_week_MWh = mean(week_MWh), .groups = "drop")
+
+knitr::kable(weekly_yearly |>
+  pivot_wider(names_from = year, values_from = mean_week_MWh), caption = "Table 1.3: Mean Weekly Demand by Year and Balancing Authorities")
+```
+
+The table above have shown that all balancing authorities have moderate growth in weekly demand over the years, some balancing authorities such as TVA and DUK are growing faster than the rest.
+
+```{r}
+weekly_seasonal <- weekly |>
+  mutate(
+    year = as.integer(format(week_start, "%Y")),
+    week_of_year = as.integer(format(week_start, "%U")) # this line of code is adapted from https://www.r-bloggers.com/2013/08/date-formats-in-r/ 
+  ) |>
+  filter(year <= 2024)
+
+ggplot(weekly_seasonal, aes(x = week_of_year, y = week_MWh, group = year, colour = factor(year))) + # colors are default
+  geom_line(alpha = 0.5) +
+  facet_wrap(~ Code, scales = "free_y") +
+  scale_x_continuous("Week of year") +
+  scale_y_continuous("Weekly electricity demand (MWh)") +
+  labs(title = "Figure 1.4: Weekly Electricity Demand Over Years") + 
+  theme_minimal()
+```
+
+From Figure 1.4, we can see that even though the weekly demand curve shape for each year are different, but the overall seasonal patterns are relatively consistent. Therefore, we will proceed with a seasonal naive model on the weekly data. This is the same as saying: we predict that the electricity demand in a generic week i next year would be similar to the week i in the previous year.
+
+```{r}
+peak_weeks <- weekly |>
+  mutate(year = as.integer(format(week_start, "%Y"))) |>
+  filter(year <= 2024) |>
+  group_by(Code) |>
+  slice_max(order_by = week_MWh, n = 3) |>
+  arrange(Code, desc(week_MWh))
+
+knitr::kable(peak_weeks, caption = "Table 1.5: Top Weekly Electricity Demand for Balancing Authorities" )
+```
+
+## Methods
+
+Based on the reasoning above, the method we use to forecast the electricity demand for the first twelve weeks into 2025 is the seasonal naive model. 
+
+```{r}
+full_weeks <- weekly |>
+  filter(week_start <= as.Date("2024-12-30"))|>
+  mutate( year = as.integer(format(week_start, "%Y")))
+
+weekly_split <- split(full_weeks, full_weeks$Code)
+
+weekly_ts_list <- lapply(weekly_split, function(df) {
+  y <- df$week_MWh
+  start_year <- min(df$year)
+  ts(y, start = c(start_year, 1), frequency = 52)
+})
+```
+
+```{r}
+# Fit seasonal naive model forecasting 12 weeks ahead
+h <- 12  
+
+snaive_fits <- lapply(weekly_ts_list, function(y_ts) {
+  snaive(y_ts, h = h, level = c(80, 95)) # return prediction at these two interval
+})
+
+for (code in names(snaive_fits)) {
+  print(
+    autoplot(snaive_fits[[code]]) +
+      labs(title = paste("Seasonal naive forecast –", code),
+           x = "Time",
+           y = "Weekly electricity demand (MWh)") +
+      theme_minimal()
+  )
+}
+```
+
+### Peak daily demand
+
+```{r}
+# Manipulate the cleaned data into daily-basis instead of weekly basis
+daily_split <- demand |>
+  arrange(Code, Date) |>
+  split(demand$Code)
+
+# Code modified based on the weekly code above
+daily_ts_list <- lapply(daily_split, function(df) {
+  y <- df$Value           # electricity demand per day
+  ts(y, frequency = 7)    # 7 days as the "season"
+})
+
+h7 <- 12 * 7  # number of days for 12 weeks
+
+snaive_daily_fits <- lapply(daily_ts_list, function(y_ts) {
+  snaive(y_ts, h = h7, level = c(80, 95))
+})
+
+max_day <- lapply(names(snaive_daily_fits), function(code) {
+  fit <- snaive_daily_fits[[code]]
+  last_date <- max(demand$Date[demand$Code == code])
+  tibble(
+    Code = code,
+    Date = last_date + seq_len(length(fit$mean)),
+    forecast_daily_MWh = as.numeric(fit$mean)
+  ) |>
+    slice_max(forecast_daily_MWh, n = 1, with_ties = F)
+}) |>
+  bind_rows() # make everything into one tibble
+
+knitr::kable(
+  max_day,
+  caption = "Table 2.1: Maximum Daily Electricity Demand Estimates in the Next 12 Weeks")
+```
+
+### Train the model using data from 2020-2023, then test it to data in 2024
+
+```{r}
+# test&training split on the processed weekly data
+weekly_train <- full_weeks |>
+  filter(year <= 2023)
+
+weekly_test <- full_weeks |>
+  filter(year == 2024)
+```
+
+```{r}
+train_split <- split(weekly_train, weekly_train$Code)
+
+snaive_2024 <- lapply(names(train_split), function(code) {
+  train_df <- train_split[[code]]
+  test_df  <- weekly_test |>
+    filter(Code == code) |>
+    arrange(week_start)
+  
+  y_train <- train_df$week_MWh
+  y_test  <- test_df$week_MWh
+  
+  y_train_ts <- ts(y_train, frequency = 52)
+  h_code <- length(y_test)
+  fit <- snaive(y_train_ts, h = h_code, level = c(80, 95))
+  
+  tibble(
+    Code       = code,
+    week_start = test_df$week_start,
+    actual     = y_test,
+    forecast   = as.numeric(fit$mean)
+  )}) |>
+  bind_rows()
+
+ggplot(snaive_2024, aes(x = week_start)) +
+  geom_line(aes(y = actual, color = "Actual")) +
+  geom_line(aes(y = forecast, color = "Forecast")) +
+  scale_color_manual(values = c("Actual" = "black", "Forecast" = "blue")) + # this line of code is modified based on https://forum.posit.co/t/help-with-getting-colors-to-work-correctly-using-geom-line/173267/3
+  facet_wrap(~ Code, scales = "free_y") +
+  scale_x_date("") +
+  scale_y_continuous("Weekly electricity demand (MWh)") +
+  labs(
+    title = "Figure 2.2: Seasonal Naive Forecast and the Reality (2024)",
+    x = "Week start") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # code modified based on https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2
+```
+
+In general, the seasonal naive model performed well when it comes to capture the seasonality of the data.
+
+### Compare the two methods, and maybe pick the one that is the best to put into the deliverables
+
+
+
+

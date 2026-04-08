@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>「本地」Business Plan</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', 'Noto Serif SC', serif;
+    background: #f0ece4;
+    color: #1a1a1a;
+  }
+
+  .page {
+    width: 794px;
+    min-height: 1123px;
+    margin: 32px auto;
+    background: #faf8f4;
+    padding: 80px 72px 100px;
+    position: relative;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-content {
+    flex: 1;
+  }
+
+  /* Cover page */
+  .cover {
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 160px;
+  }
+
+  .cover-eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8a7355;
+    margin-bottom: 32px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+  }
+
+  .cover-title {
+    font-size: 52px;
+    font-weight: 400;
+    color: #1a1a1a;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+    color: #6b5c45;
+    letter-spacing: 2px;
+    margin-bottom: 64px;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 300;
+  }
+
+  .cover-tagline {
+    font-size: 18px;
+    color: #3d3228;
+    line-height: 1.7;
+    max-width: 420px;
+    font-style: italic;
+    border-left: 2px solid #8a7355;
+    padding-left: 20px;
+    margin-bottom: 80px;
+  }
+
+  .cover-meta {
+    font-size: 11px;
+    color: #9e8e78;
+    letter-spacing: 1px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  .cover-meta span { margin-right: 32px; }
+
+  /* Footer */
+  .page-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 72px;
+    right: 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #d4c9b8;
+    padding-top: 14px;
+  }
+
+  .footer-brand {
+    font-size: 11px;
+    color: #8a7355;
+    letter-spacing: 2px;
+    font-family: 'Helvetica Neue', sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .footer-center {
+    font-size: 10px;
+    color: #b0a090;
+    letter-spacing: 1px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  .footer-page {
+    font-size: 11px;
+    color: #8a7355;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  /* Section headers */
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8a7355;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 400;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-top: 36px;
+    margin-bottom: 14px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #5c4a32;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  p {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: #2d2520;
+    margin-bottom: 14px;
+  }
+
+  /* Divider */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: #8a7355;
+    margin: 28px 0;
+  }
+
+  /* Pull quote */
+  .pull-quote {
+    border-left: 2px solid #8a7355;
+    padding: 16px 24px;
+    margin: 28px 0;
+    background: #f0ece4;
+  }
+
+  .pull-quote p {
+    font-size: 15px;
+    font-style: italic;
+    color: #3d3228;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 12.5px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  thead tr {
+    background: #3d3228;
+    color: #faf8f4;
+  }
+
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  tbody tr:nth-child(even) { background: #f0ece4; }
+  tbody tr:nth-child(odd) { background: #faf8f4; }
+
+  tbody td {
+    padding: 9px 14px;
+    color: #2d2520;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  /* Two-col layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin: 20px 0;
+  }
+
+  .col-block {
+    background: #f0ece4;
+    padding: 20px;
+  }
+
+  .col-block h3 { margin-top: 0; }
+
+  /* Stat highlight */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .stat-block {
+    background: #3d3228;
+    color: #faf8f4;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #c4a97a;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  /* Phase timeline */
+  .phase-block {
+    border-left: 2px solid #8a7355;
+    padding-left: 20px;
+    margin-bottom: 28px;
+  }
+
+  .phase-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8a7355;
+    font-family: 'Helvetica Neue', sans-serif;
+    margin-bottom: 4px;
+  }
+
+  .phase-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: #8a7355;
+    color: #faf8f4;
+    padding: 3px 8px;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  /* Page break helper */
+  .page-break { page-break-after: always; }
+
+  /* TOC */
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px dotted #d4c9b8;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  .toc-num {
+    font-size: 11px;
+    color: #8a7355;
+    margin-right: 12px;
+    min-width: 24px;
+  }
+
+  .toc-title { font-size: 13px; color: #2d2520; flex: 1; }
+
+  .toc-page {
+    font-size: 11px;
+    color: #8a7355;
+    margin-left: 12px;
+  }
+
+  ul { padding-left: 18px; margin-bottom: 12px; }
+  ul li { font-size: 13px; line-height: 1.8; color: #2d2520; margin-bottom: 2px; }
+
+  .asset-check { color: #8a7355; font-weight: bold; margin-right: 4px; }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="page cover">
+  <div class="page-content">
+    <div class="cover-eyebrow">Business Plan · Internal Working Document · 2025</div>
+    <div class="cover-title">「本地」</div>
+    <div class="cover-subtitle">在地人文体验平台</div>
+    <div class="cover-tagline">让习以为常的生活，<br>成为值得被看见的体验。</div>
+    <div class="cover-meta">
+      <span>版本 v3.0</span>
+      <span>2025年</span>
+      <span>内部工作版</span>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">01</span>
+  </div>
+</div>
+
+<!-- PAGE 2: TOC -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">目录</div>
+    <h1>Contents</h1>
+    <div class="toc-item"><span class="toc-num">01</span><span class="toc-title">定位</span><span class="toc-page">03</span></div>
+    <div class="toc-item"><span class="toc-num">02</span><span class="toc-title">问题：我们在解决什么</span><span class="toc-page">04</span></div>
+    <div class="toc-item"><span class="toc-num">03</span><span class="toc-title">市场：需求已被验证，空间尚未被占据</span><span class="toc-page">05</span></div>
+    <div class="toc-item"><span class="toc-num">04</span><span class="toc-title">产品：我们卖什么</span><span class="toc-page">06</span></div>
+    <div class="toc-item"><span class="toc-num">05</span><span class="toc-title">商业模式</span><span class="toc-page">07</span></div>
+    <div class="toc-item"><span class="toc-num">06</span><span class="toc-title">供给侧策略</span><span class="toc-page">08</span></div>
+    <div class="toc-item"><span class="toc-num">07</span><span class="toc-title">酒店合作方案</span><span class="toc-page">09</span></div>
+    <div class="toc-item"><span class="toc-num">08</span><span class="toc-title">流量与增长</span><span class="toc-page">09</span></div>
+    <div class="toc-item"><span class="toc-num">09</span><span class="toc-title">产品与技术架构</span><span class="toc-page">10</span></div>
+    <div class="toc-item"><span class="toc-num">10</span><span class="toc-title">长期演化方向</span><span class="toc-page">11</span></div>
+    <div class="toc-item"><span class="toc-num">11</span><span class="toc-title">阶段性路线图</span><span class="toc-page">12</span></div>
+    <div class="toc-item"><span class="toc-num">12</span><span class="toc-title">权责边界与风险管理</span><span class="toc-page">13</span></div>
+    <div class="toc-item"><span class="toc-num">13</span><span class="toc-title">现有资产与合作诉求</span><span class="toc-page">14</span></div>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">02</span>
+  </div>
+</div>
+
+<!-- PAGE 3: POSITIONING + PROBLEM -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">01 · 定位</div>
+    <h1>一句话定位</h1>
+    <div class="pull-quote">
+      <p>「本地」是一个连接旅行者与真正在地体验的预订平台。我们把那些只有本地人才知道的日常——手艺、空间、故事、技艺——转化为每一个旅行者都能预订、参与、带走记忆的体验产品。</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-label">02 · 问题</div>
+    <h1>我们在解决什么</h1>
+
+    <h2>需求侧：旅行者想要"真实"，却找不到入口</h2>
+    <p>越来越多的旅行者不满足于景点打卡。他们想知道当地人去哪里吃、周末做什么、哪条街只有本地人才走。但现有渠道给不了这些：OTA平台卖的是门票和标准化行程；内容平台给得了灵感，却没有成交和履约闭环；民宿能住进去，但没有人带你真正进入这座城市的日常。</p>
+    <p>对旅行者而言，痛点集中在三处：信息分散、难以找到真实优质的个性化体验；支付与信任保障缺失（目前主要依赖小红书私聊和微信转账，出了问题无处投诉）；以及售前沟通成本极高——为了确认一次体验，往往要在多个平台来回切换、反复议价。</p>
+
+    <h2>供给侧：真正的"本地"缺的不是内容，是被看见的渠道</h2>
+    <p>手艺人、主理人、修复师、本地向导——他们不是没有东西可分享。他们只是没有意识到，自己习以为常的生活，正是旅行者最想参与的"本地"。也没有一个结构化的工具，帮助他们把这些东西变成可售卖、可履约、可持续经营的产品。现有模式给体验提供方带来的困境同样清晰：收益结构不稳定、运营效率低、缺乏品牌化曝光机会、售前售后沟通成本居高不下。</p>
+
+    <div class="two-col">
+      <div class="col-block">
+        <h3>旅行者的断层</h3>
+        <ul>
+          <li>信息分散，难以找到真实体验</li>
+          <li>支付与信任保障缺失</li>
+          <li>售前沟通成本极高</li>
+        </ul>
+      </div>
+      <div class="col-block">
+        <h3>体验提供方的困境</h3>
+        <ul>
+          <li>收益结构不稳定</li>
+          <li>缺乏品牌化曝光机会</li>
+          <li>运营效率低，获客成本高</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">03</span>
+  </div>
+</div>
+
+<!-- PAGE 4: MARKET -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">03 · 市场</div>
+    <h1>需求已被验证，空间尚未被占据</h1>
+
+    <h2>参考案例：小岛游的市场调研</h2>
+    <p>同赛道的小岛游（聚焦出境游华语圈市场）在市场验证阶段对154人进行了问卷调查，结果具有参考价值。</p>
+
+    <div class="stat-row">
+      <div class="stat-block">
+        <span class="stat-number">94%</span>
+        <span class="stat-label">愿意尝试新平台</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-number">27%</span>
+        <span class="stat-label">个性化体验需求占比第一</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-number">154</span>
+        <span class="stat-label">有效问卷样本</span>
+      </div>
+    </div>
+
+    <p>94%的受访者愿意脱离现有的小红书/微信模式尝试使用新平台；在旅行中最需要的服务项目中，"个性化体验"以27%的占比位列第一，高于地陪（15%）、包车（17%）、翻译（11%）等传统服务品类。用户对在地个性化体验的需求是真实且迫切的，且现有渠道的解决方案被普遍认为不够好——用户愿意为更好的产品付费，缺的只是一个值得信赖的平台出现。</p>
+
+    <h2>OTC小镇：赛道验证者，而非竞争对手</h2>
+    <p>OTC小镇是目前国内最接近「本地」模式的产品。以大理站为例，体验品类涵盖农场采摘、花饼制作、Gin酒工坊等，客单价在¥268–¥288区间，且形成了稳定复购。OTC验证了三件关键的事：中国游客愿意为"有人带"的在地体验付费；普通人经过产品化辅助，可以成为合格的体验提供者；微信小程序作为MVP形态足够承载预订—履约—评价的完整闭环。</p>
+    <p>OTC没有做、也短期内不太可能做的，是「本地」真正的机会：OTC深耕南方生活方式城市，调性以自然、慢生活、治愈系为主。北方文化遗产城市——大同的壁画修复、西安的器物美学、洛阳的古建叙事——是完全不同的内容密度和体验语言，需要一套不同的产品方法论和Host孵化机制。「本地」不是在大理旁边再建一个大理，而是用同样经过验证的底层逻辑，打开一片OTC从未触达的市场。</p>
+
+    <div class="pull-quote">
+      <p>流量已经因为《黑神话：悟空》等文化事件涌入大同。但游客到了那里，除了景点门票，几乎没有更多可以"买"的在地体验。这是一个需求已被激活、但供给严重滞后的窗口期。</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">04</span>
+  </div>
+</div>
+
+<!-- PAGE 5: PRODUCT -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">04 · 产品</div>
+    <h1>我们卖什么</h1>
+
+    <h2>什么是一个好的体验产品</h2>
+    <p>好的体验需要过程性、主动参与，以及知识或技能的获得，并能在情绪上留下可被讲述的记忆（峰终定律）。「本地」对体验产品的标准定义建立在四个维度上：叙事先行——每个体验必须能回答"我为什么在这里、这件事为什么重要"；主动参与——观看不是体验，动手或真实对话才是；在地不可替代——这个体验只能在这里、只能由这个人来完成；峰值设计——每个体验必须有一个设计好的高光时刻，让用户有东西可以讲给别人听。</p>
+
+    <h2>体验品类与本地Host资源地图（以大同为起点）</h2>
+
+    <h3>🍜 食物与市集</h3>
+    <p>跟一个在大同住了三十年的人做一道只有本地人才吃的早饭；以"买菜"为线索走一遍大同早市，了解哪些食材只在这里有、为什么。接触方向：东南邑附近餐饮主理人、古城区老字号食铺、本地民宿主。</p>
+
+    <h3>🖌️ 手作与修复</h3>
+    <p>跟云冈研究院文保部门的修复师，了解壁画颜料调制与临摹基础，亲手体验修复逻辑（已有合作基础，稀缺性最强，作为首个标杆体验优先打磨）；跟东南邑正在进行修缮的古宅项目负责人，现场了解传统建筑的修复决策与材料工艺；寻找仍在日常创作而非表演性展示的铜器、剪纸、布艺手艺人。</p>
+
+    <h3>☕ 创意与空间</h3>
+    <p>大同独立咖啡馆主理人——不只是"做咖啡"，而是聊他们为什么选择在大同开店、怎么在这座城市生存下去；邀请在大同驻留或长居的艺术家开放工作室，以创作为线索讲述他们与这座城市的关系。</p>
+
+    <h3>🚶 城市漫步与空间叙事</h3>
+    <p>由在大同长大的年轻人带队——不去景点，去他们小时候的胡同、已经消失一半的老市场、只有本地人才知道的观景点；把一堂关于大同城市变迁的课搬到街头，边走边讲（城市课堂）。</p>
+
+    <div class="divider"></div>
+
+    <h2>对标定价参考</h2>
+    <table>
+      <thead><tr><th>体验类型</th><th>时长</th><th>建议客单价</th><th>OTC参考价</th></tr></thead>
+      <tbody>
+        <tr><td>手作工坊（壁画/非遗）</td><td>2–3小时</td><td>¥298–¥498</td><td>¥268–¥288</td></tr>
+        <tr><td>城市漫步 / Citywalk</td><td>2–3小时</td><td>¥198–¥298</td><td>—</td></tr>
+        <tr><td>食物制作 / 市集体验</td><td>2–3小时</td><td>¥198–¥268</td><td>¥288</td></tr>
+        <tr><td>工作室 / 空间开放</td><td>1.5–2小时</td><td>¥158–¥228</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">05</span>
+  </div>
+</div>
+
+<!-- PAGE 6: BUSINESS MODEL -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">05 · 商业模式</div>
+    <h1>商业模式</h1>
+
+    <h2>谁付钱</h2>
+    <p>C端用户直接付费为核心收入来源。游客在平台上直接预订并付款，这是最能建立用户心智和积累数据资产的路径。酒店渠道为第二收入层，以联名或白标形式将「本地」体验嵌入住客行程，按成交收取渠道分成，不向酒店收取入驻费。</p>
+
+    <h2>分账模型</h2>
+    <p>参考小岛游的双边抽佣结构，「本地」在冷启动阶段采用单一佣金模式，平台从每笔订单中抽取25–30%，其余70–75%结算给Host。相比向双侧收费的结构，向Host侧单向收取可降低用户端摩擦，更有利于积累早期口碑。结算周期为T+7，初期不收Host保证金，以评价体系和动态下架机制代替。</p>
+
+    <table>
+      <thead><tr><th>角色</th><th>分成比例</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>Host（体验提供方）</td><td>70–75%</td><td>承担履约责任，含体验物料成本</td></tr>
+        <tr><td>平台（「本地」）</td><td>25–30%</td><td>含流量、支付、品控、保险成本</td></tr>
+        <tr><td>酒店渠道</td><td>5–8%（从平台侧扣）</td><td>仅通过酒店渠道成交的订单适用</td></tr>
+      </tbody>
+    </table>
+
+    <h2>钱怎么走</h2>
+    <p>平台作为代收代付方（MoR），统一收取用户付款，履约后结算给Host。退款与客诉由平台兜底，保留对Host的违约扣款权。</p>
+
+    <h2>融资策略</h2>
+    <p>现阶段创始团队自投，跑出数据再融资。在没有可验证的GMV、用户复购率和Host留存数据之前，主动融资的时机尚未成熟。计划用自有资金完成Phase 1——首批3–5个体验产品打磨与试跑——用真实订单数据和用户访谈结论证明模型，再以此为基础启动融资对话。这不是回避融资，而是让融资发生在我们有筹码的时候。</p>
+
+    <div class="divider"></div>
+
+    <div class="section-label">06 · 供给侧</div>
+    <h1>供给侧策略</h1>
+
+    <h2>冷启动：从已有关系网络直接转化</h2>
+    <p>首批Host不来自陌生招募，而是从拾古学社运营中已建立真实关系的本地机构和个人中直接转化：云冈石窟研究院文保部门（壁画修复工作坊，稀缺性最强，作为标杆体验优先打磨）；东南邑艺术街区运营团队及入驻主理人（古宅走访、工作室开放、街区漫步）；佳游大同马老师（已合作验证，寺庙导览、Citywalk）；平城学堂（城市课堂、人文沙龙）；山西人文地理 / 山西省专家学者协会（连接手艺人与文史研究者）。</p>
+
+    <h2>Host孵化：帮他们"看见"自己的价值</h2>
+    <p>很多潜在Host不知道自己习以为常的东西有商业价值。核心工作不是招募，而是帮助他们发现并描述自己的体验：与Host进行1–2次深度访谈，挖掘其最独特的知识/技能/日常场景；团队协助撰写产品文案、设计体验流程脚本；首次体验由团队成员陪跑，收集用户反馈并提供优化建议；通过品质评估后签署合作协议，正式上线。</p>
+
+    <h2>Host权益承诺</h2>
+    <p>Host的订单记录与用户评价数据归Host所有，合作终止时可完整导出。不设排他条款，Host可同时在其他平台运营。由平台协助创作的产品文案和体验脚本双方共同持有，Host离开后不可直接商用该版本。</p>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">06</span>
+  </div>
+</div>
+
+<!-- PAGE 7: HOTEL + GROWTH -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">07 · 酒店合作</div>
+    <h1>酒店合作方案</h1>
+
+    <p>住客问"周边有什么好玩的"，前台答不上来——这是每一家非连锁精品酒店都存在的真实痛点。「本地」提供零库存风险的解决方案：可嵌入酒店前台/公众号/房卡二维码的体验预订入口，经过品质认证的本地体验清单（白标可选），按成交分成，酒店无需提前采购或承担履约责任。</p>
+
+    <table>
+      <thead><tr><th>合作层级</th><th>内容</th><th>收益模式</th></tr></thead>
+      <tbody>
+        <tr><td>基础渠道</td><td>酒店放置「本地」体验物料/二维码</td><td>按成交给酒店5%佣金</td></tr>
+        <tr><td>联名套餐</td><td>共同打包"住宿+体验"产品联合推广</td><td>收益分成，平台提供内容支持</td></tr>
+        <tr><td>白标定制</td><td>为酒店定制专属体验产品线，以酒店品牌呈现</td><td>服务费+分成，适合精品酒店</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <div class="section-label">08 · 流量与增长</div>
+    <h1>流量与增长路径</h1>
+
+    <h2>不依赖买量，内容驱动口碑增长</h2>
+    <p>「本地」的增长逻辑是内容驱动，而非买量。每次高质量体验本身就是可传播的内容素材，Host在小红书/B站的个人受众是天然的分发渠道。壁画修复工作坊等稀缺性体验，具备自发传播的话题性。拾古学社已有的内容积累是冷启动期的初始流量基础。</p>
+
+    <h2>为什么不直接用小红书卖</h2>
+    <p>Host完全可以在小红书自己卖体验。平台的价值不是流量，而是履约系统与信任背书。小红书能种草，但无法处理退款、改期、天气取消、客诉。「本地」提供的是完整的预订—确认—履约—评价闭环，Host不需要自己处理每一个订单细节。平台的品质认证体系让用户愿意为陌生Host的体验付钱——这是单个Host无法自建的信任资产。这与小岛游对同类问题的判断一致：解决"浏览—沟通—支付—评价"全链路闭环，是相对于小红书+微信模式最核心的差异化价值。</p>
+
+    <h2>增长逻辑</h2>
+    <p>平台的增长不依赖单向的流量投放，而是依靠供需两侧的相互强化。优质的Host带来高质量的体验，高质量的体验产生真实的用户口碑与内容传播，口碑积累推动更多预订，更多预订提升平台的品牌可信度，可信度反过来吸引更多有价值的Host愿意入驻——这个循环一旦启动，边际获客成本会持续下降，而体验质量会持续上升。</p>
+    <p>冷启动阶段的关键不是同时推动两侧，而是先锁定3–5个极高质量的标杆体验，用这些体验产生第一批真实口碑，再以口碑撬动后续的Host招募与用户增长。</p>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">07</span>
+  </div>
+</div>
+
+<!-- PAGE 8: TECH + LONG-TERM -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">09 · 产品与技术</div>
+    <h1>产品与技术架构</h1>
+
+    <h2>产品架构</h2>
+    <p>用户侧的体验是线性的：发现一个感兴趣的体验、完成预订和支付、收到行前提醒、参与体验、留下评价。但支撑这条线性体验流畅运转的，是平台在中间层承担的所有复杂性——订单状态管理、支付代收代付、退款与客诉处理、Host结算、评价体系维护。这些对用户完全不可见，但它们是平台相对于小红书私聊模式最核心的价值所在。</p>
+    <p>Host侧同样有一套独立的操作界面：发布体验产品、设置可用档期、接收并确认订单、查看结算状态。Host不需要处理任何支付或客服细节，这是降低Host运营负担、提升留存率的核心设计逻辑。</p>
+
+    <h2>MVP技术路径</h2>
+    <p><strong>Phase 1（0–6个月）：</strong>微信小程序 + 人工处理订单，不过度投入技术。重点在验证用户付费意愿和Host履约质量。</p>
+    <p><strong>Phase 2（6–18个月）：</strong>Host自助发布后台上线，自动结算模块接入，评价系统完善，开始积累结构化体验数据。</p>
+    <p><strong>Phase 3（18个月+）：</strong>支持多城市扩展，接入用户画像与推荐逻辑，为后续AI可读体验数据层建设积累基础。</p>
+
+    <div class="divider"></div>
+
+    <div class="section-label">10 · 长期演化</div>
+    <h1>长期演化方向</h1>
+    <p style="font-size:11px;color:#9e8e78;font-family:'Helvetica Neue',sans-serif;margin-bottom:16px;">本节为中长期愿景，不影响当前阶段决策，供tech背景受众评估天花板。</p>
+
+    <h2>让非标活动在AI时代保持可见性</h2>
+    <p>当前旅行规划正在被AI重塑。AI travel agent可以很好地优化机票价格、酒店选择和景点路线，却在深度在地体验上严重失能——根本原因是没有"深度层级数据"可以调用。现有的在地体验产品，即使已经产品化，也几乎没有被数据化。一个壁画修复工作坊，它的情绪强度、体力要求、文化深度等级、适合什么类型的旅行者、与什么其他体验可以组合——这些信息根本不存在于任何AI可读的数据库里。</p>
+    <p>「本地」在运营过程中积累的结构化体验数据，就是这个缺失的数据层。每一个上线的体验产品，都携带一套完整的可机读字段：叙事背景、情绪标签、文化深度等级、体力要求、适合人群、风险评级、可组合性标注。当这个数据库足够大，「本地」就不只是一个C端体验平台，而是一套让非标在地文化活动在AI时代保持可见、可被推荐、可被组合进行程的基础设施。</p>
+
+    <h2>入境游模块化供应商</h2>
+    <p>中国入境游正在经历结构性复苏，且这一波回流并不以跟团游为主——越来越多的外国旅行者选择自由行的方式来中国，寻找真实的文化体验而非标准化路线。这一趋势有政策背景印证：中国近年在多个平台向海外YouTuber、博主提供内容合作资金，邀请他们来华进行自由行式记录与传播，内容的共同特点是强调"真实的中国日常"而非"景区中国"——这与「本地」的产品逻辑高度吻合。</p>
+    <p>入境游不是「本地」的当前优先项，但它是一个在平台数据资产积累到一定程度后、可以相对低成本接入的增量市场，也是体验数据库英文化适配最自然的出口。</p>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">08</span>
+  </div>
+</div>
+
+<!-- PAGE 9: ROADMAP -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">11 · 路线图</div>
+    <h1>阶段性路线图</h1>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 1 · 2025年下半年 — 2026年上半年</div>
+      <div class="phase-title">大同市场验证</div>
+      <p>核心目标是用最小投入验证核心假设，而非追求规模。产品层面：上线微信小程序MVP，实现预订—支付—履约—评价的基础闭环；优先打磨3–5个标杆体验（壁画修复工作坊作为首个，因其稀缺性最高、话题性最强）；Host入驻不超过10个，聚焦质量而非数量。</p>
+      <p>运营层面：每次体验结束后进行用户深度访谈，重点收集三类信息——付费决策过程、体验高光时刻（峰终定律验证）、愿意复购或推荐的理由；与大同2–3家精品民宿建立渠道合作，验证酒店分销模型。迭代节奏为每两周一次产品复盘，小步快走，不等"做好了再上线"。</p>
+      <p>自测数据目标（不对外承诺）：完成50单真实付费订单；用户满意度4.5/5以上；Host留存率80%以上；至少1个体验产品实现自然口碑传播。</p>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 2 · 2026年</div>
+      <div class="phase-title">北方文旅城市扩展</div>
+      <p>在大同模型跑通后，向同类型的北方文化遗产城市扩展。优先目标是<strong>西安或洛阳二选一</strong>，原因是两座城市同时满足：游客基数大（均为国内热门目的地）、在地文化资源密度高（适合「本地」的产品逻辑）、且尚无同类竞品占据心智。</p>
+      <p>扩展策略不是复制大同运营团队，而是输出Host孵化方法论：以大同验证的访谈→产品化→试跑→上线流程为模板，在新城市找到种子Host，帮助他们发现自己的体验价值。此阶段核心目的是积累跨城市的体验数据资产，为Phase 3的全国性推广提供数据支撑，同时初步建立可被AI读取的结构化体验数据库。</p>
+    </div>
+
+    <div class="phase-block">
+      <div class="phase-label">Phase 3 · 2027年起</div>
+      <div class="phase-title">全国性推广与数据资产变现</div>
+      <p>以北方文旅城市的运营经验为基础，向成都、南京、泉州、扬州等具有文化深度的二线城市扩展，同时将体验数据库的AI可读化程度提升至可对外提供API的水平。探索B端收入层：向OTA平台、AI travel agent公司提供结构化体验数据接口；与入境游定制公司启动试点合作，输出英文化体验模块。会员制/订阅制作为C端收入补充层适时引入。</p>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">09</span>
+  </div>
+</div>
+
+<!-- PAGE 10: RISK + ASSETS -->
+<div class="page">
+  <div class="page-content">
+    <div class="section-label">12 · 权责与风险</div>
+    <h1>权责边界与风险管理</h1>
+
+    <table>
+      <thead><tr><th>场景</th><th>责任归属与处理方式</th></tr></thead>
+      <tbody>
+        <tr><td>Host爽约</td><td>平台全额退款用户；Host扣除当期结算20%违约金</td></tr>
+        <tr><td>用户爽约（24h内）</td><td>不退款；Host获得50%保留费用</td></tr>
+        <tr><td>天气/不可抗力取消</td><td>平台垫付退款，与Host协商补偿或改期</td></tr>
+        <tr><td>体验安全事故</td><td>Host须为活动购买责任险（嵌入合作协议强制要求）</td></tr>
+        <tr><td>用户投诉体验质量</td><td>平台48h内响应，调解失败则退款并下架体验审查</td></tr>
+      </tbody>
+    </table>
+
+    <h2>核心假设与对冲策略</h2>
+    <table>
+      <thead><tr><th>假设</th><th>风险</th><th>对冲策略</th></tr></thead>
+      <tbody>
+        <tr><td>游客有深度体验付费意愿</td><td>客单价测试失败</td><td>先用游学营用户做首批付费验证，从低定价试水</td></tr>
+        <tr><td>Host愿意被产品化</td><td>Host觉得麻烦或利益不够</td><td>团队深度co-create，首次体验零成本启动</td></tr>
+        <tr><td>小程序足够承载MVP</td><td>技术瓶颈提前出现</td><td>阶段一用人工+表单替代，延迟技术投入</td></tr>
+        <tr><td>酒店渠道带来增量流量</td><td>酒店执行意愿不足</td><td>酒店合作定位为锦上添花，C端直销为主</td></tr>
+        <tr><td>AI接口有下游买方</td><td>B端付费意愿不足</td><td>作为长期演化方向，不影响C端当前决策</td></tr>
+      </tbody>
+    </table>
+
+    <div class="divider"></div>
+
+    <div class="section-label">13 · 现有资产与合作诉求</div>
+    <h1>我们有什么 / 我们在找什么</h1>
+
+    <h2>现有资产</h2>
+
+    <h3>供给侧可转化资产</h3>
+    <p>我们在大同已有覆盖四个核心体验品类的潜在Host网络，且均为真实关系而非冷接触。手作与修复方向：与云冈石窟研究院文保部门建立了实质合作关系，壁画修复工作坊具备直接转化为可预订体验产品的条件。创意与空间方向：东南邑艺术街区的运营团队及多位入驻主理人，已具备内容输出能力，缺少的只是产品化的结构与渠道。城市叙事方向：平城学堂在大同本地有稳定的人文社群资源。文史与手艺方向：山西省专家学者协会可连接本地研究者与传统手艺人网络。这四条线共同构成「本地」在大同冷启动阶段不需要从零招募Host的基础。</p>
+
+    <h3>产品化方法论</h3>
+    <p>我们积累了一套与本地人合作、将其日常转化为可描述体验产品的工作方法——包括如何通过深度访谈挖掘体验价值、如何协助Host完成产品脚本的撰写与流程设计。这套方法论是在与大同本地机构和个人的持续协作中形成的，可直接应用于首批Host的孵化。</p>
+
+    <h3>内容与叙事积累</h3>
+    <p>我们已有一套关于大同的文化叙事语言——涵盖古建筑、石窟艺术、城市更新、在地生活等多个维度。这是「本地」在冷启动期建立用户信任、与其他泛文旅平台形成区分的叙事基础，也是Host产品文案写作的内容储备。</p>
+
+    <h3>启动资金</h3>
+    <p>创始团队自有资金支持Phase 1启动，无外部融资压力，可以专注于产品打磨与用户验证而非短期指标。</p>
+
+    <h2>寻求合作</h2>
+    <table>
+      <thead><tr><th>合作类型</th><th>诉求</th><th>我们能给的</th></tr></thead>
+      <tbody>
+        <tr><td>联合创始人 / 核心团队</td><td>产品或技术背景，认同人文体验赛道</td><td>股权，共同定义产品方向</td></tr>
+        <tr><td>酒店合作方</td><td>大同本地精品酒店/民宿，首个渠道合作伙伴</td><td>零风险分成，住客体验增值，联合内容传播</td></tr>
+        <tr><td>Host资源方</td><td>有内容有场域、缺乏产品化能力的文化机构/个人</td><td>产品co-create支持，平台流量，分成收入</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="page-footer">
+    <span class="footer-brand">本地 · Bendi</span>
+    <span class="footer-center">内部文件 · 请勿外传</span>
+    <span class="footer-page">10</span>
+  </div>
+</div>
+
+</body>
+</html>

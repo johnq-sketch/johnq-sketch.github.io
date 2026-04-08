@@ -1,0 +1,5 @@
+.DS_Store
+.gstack/
+
+# Local working files that should not affect the public site
+_source/
